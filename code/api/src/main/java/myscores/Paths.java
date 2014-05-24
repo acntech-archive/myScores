@@ -5,13 +5,15 @@ public interface Paths {
     String API_ROOT = "/api";
     String PING = "/ping";
 
-    String GAMBLER = "/gambler";
-    String GET_GAMBLER = "/get/{name}";
-    String FIND_GAMBLERS = "/find";
-    String REGISTER_GAMBLER = "/register";
-    String ACTIVATE_GAMBLER = "/activate";
+    String GET_NAME = "/get/{name}";
+    String GET_ID = "/get/{id}";
+    String FIND = "/find";
+    String REGISTER = "/register";
+    String ACTIVATE = "/activate";
 
+    String GAMBLER = "/gambler";
     String MATCH = "/match";
 
     String NAME = "{name}";
+    String ID = "{id}";
 }

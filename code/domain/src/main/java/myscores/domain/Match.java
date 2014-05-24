@@ -1,7 +1,7 @@
 package myscores.domain;
 
 public class Match {
-    
+
     private int id;
     private Team homeTeam;
     private Team awayTeam;
@@ -47,6 +47,4 @@ public class Match {
     public void setGameType(GameType gameType) {
         this.gameType = gameType;
     }
-    
-    
 }

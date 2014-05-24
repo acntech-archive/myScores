@@ -2,7 +2,7 @@ package myscores.resources;
 
 import myscores.Paths;
 import myscores.domain.Gambler;
-import myscores.rules.GamblerService;
+import myscores.services.GamblerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,30 +19,38 @@ public class GamblerResource {
     private GamblerService service;
 
     @GET
-    @Path(Paths.GET_GAMBLER)
+    @Path(Paths.GET_NAME)
     public Gambler get(@PathParam(Paths.NAME) String name) {
         LOGGER.info("GET");
         return service.get(name);
     }
 
     @GET
-    @Path(Paths.FIND_GAMBLERS)
+    @Path(Paths.FIND)
     public List<Gambler> find() {
         LOGGER.info("FIND");
         return service.list();
     }
 
     @POST
-    @Path(Paths.REGISTER_GAMBLER)
+    @Path(Paths.REGISTER)
     public String register(Gambler gambler) {
         LOGGER.info("REGISTER");
-        return service.register(gambler);
+        if (service.register(gambler)) {
+            return "Gambler '" + gambler.getName() + "' registered successfully";
+        } else {
+            return "Gambler '" + gambler.getName() + "' could not registered";
+        }
     }
 
     @PUT
-    @Path(Paths.ACTIVATE_GAMBLER)
+    @Path(Paths.ACTIVATE)
     public String activate(String name) {
         LOGGER.info("ACTIVATE");
-        return service.activate(name);
+        if (service.activate(name)) {
+            return "Gambler '" + name + "' activated successfully";
+        } else {
+            return "Gambler '" + name + "' could not activated";
+        }
     }
 }
