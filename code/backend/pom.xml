@@ -11,4 +11,22 @@
 
     <artifactId>myscores-backend</artifactId>
     <packaging>jar</packaging>
+
+    <!-- DEPENDENCIES -->
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>javax</groupId>
+            <artifactId>javaee-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>myscores-domain</artifactId>
+        </dependency>
+    </dependencies>
 </project>
