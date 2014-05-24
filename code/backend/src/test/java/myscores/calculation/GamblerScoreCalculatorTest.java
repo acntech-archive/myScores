@@ -6,17 +6,12 @@ import myscores.domain.Gambler;
 import myscores.domain.GameType;
 import myscores.domain.Match;
 import myscores.domain.Result;
+import myscores.domain.Team;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class GamblerScoreCalculatorTest {
-    
-    /*
-    @Test
-    public void testSimpleCalculation(){
-        GamblerScoreCalculator calc = new GamblerScoreCalculator();
-        Assert.assertEquals("Enkel utregning av spillerpoeng feilet", 0, calc.calculate());
-    }*/
     
     @Test
     public void testOneGroupMatchCorrectScoreCorrectWinner(){
@@ -94,5 +89,618 @@ public class GamblerScoreCalculatorTest {
         
         GamblerScoreCalculator calc = new GamblerScoreCalculator();
         Assert.assertEquals("Enkel utregning av spillerpoeng ved korrekt vinner og feil resultat", 0, calc.calculate(gambler, correctMatchResults));
+    }
+    
+    @Test
+    public void testOneOfTwoCorrectTeamsInRoundOfSixteen(){
+        
+        Team firstTeamInFinal = new Team();
+        firstTeamInFinal.setId(1);
+        
+        Team secondTeamInFinal = new Team();
+        secondTeamInFinal.setId(2);
+        
+        
+        Gambler gambler = new Gambler();
+        List<Match> gamblerMatches = new ArrayList<>();
+        Match betMatch = new Match();
+        betMatch.setAwayTeam(secondTeamInFinal);
+        betMatch.setGameType(GameType.ROUND_OF_SIXTEEN);
+        gamblerMatches.add(betMatch);
+        gambler.setMatches(gamblerMatches);
+        
+        List<Match> correctMatchResults = new ArrayList<>();
+        Match correctMatch = new Match();
+        correctMatch.setAwayTeam(firstTeamInFinal);
+        correctMatch.setHomeTeam(secondTeamInFinal);
+        correctMatch.setGameType(GameType.ROUND_OF_SIXTEEN);
+        correctMatchResults.add(correctMatch);
+        
+        
+        GamblerScoreCalculator calc = new GamblerScoreCalculator();
+        Assert.assertEquals("Utregning av spillerpoeng ved et av to korrekte lag i RoundOfSixteen", 4, calc.calculate(gambler, correctMatchResults));
+    }
+    
+    @Test
+    public void testTwoOfTwoCorrectTeamsInRoundOfSixteen(){
+        
+        Team firstTeamInFinal = new Team();
+        firstTeamInFinal.setId(1);
+        
+        Team secondTeamInFinal = new Team();
+        secondTeamInFinal.setId(2);
+        
+        
+        Gambler gambler = new Gambler();
+        List<Match> gamblerMatches = new ArrayList<>();
+        Match betMatch = new Match();
+        betMatch.setAwayTeam(secondTeamInFinal);
+        betMatch.setHomeTeam(secondTeamInFinal);
+        betMatch.setGameType(GameType.ROUND_OF_SIXTEEN);
+        gamblerMatches.add(betMatch);
+        gambler.setMatches(gamblerMatches);
+        
+        List<Match> correctMatchResults = new ArrayList<>();
+        Match correctMatch = new Match();
+        correctMatch.setAwayTeam(firstTeamInFinal);
+        correctMatch.setHomeTeam(secondTeamInFinal);
+        correctMatch.setGameType(GameType.ROUND_OF_SIXTEEN);
+        correctMatchResults.add(correctMatch);
+        
+        
+        GamblerScoreCalculator calc = new GamblerScoreCalculator();
+        Assert.assertEquals("Utregning av spillerpoeng ved et av to korrekte lag i RoundOfSixteen", 8, calc.calculate(gambler, correctMatchResults));
+    }
+    
+    @Test
+    public void testTwoOfTwoCorrectTeamsInRoundOfSixteenOppositeDirection(){
+        
+        Team firstTeamInFinal = new Team();
+        firstTeamInFinal.setId(1);
+        
+        Team secondTeamInFinal = new Team();
+        secondTeamInFinal.setId(2);
+        
+        
+        Gambler gambler = new Gambler();
+        List<Match> gamblerMatches = new ArrayList<>();
+        Match betMatch = new Match();
+        betMatch.setHomeTeam(secondTeamInFinal);
+        betMatch.setAwayTeam(secondTeamInFinal);
+        betMatch.setGameType(GameType.ROUND_OF_SIXTEEN);
+        gamblerMatches.add(betMatch);
+        gambler.setMatches(gamblerMatches);
+        
+        List<Match> correctMatchResults = new ArrayList<>();
+        Match correctMatch = new Match();
+        correctMatch.setAwayTeam(firstTeamInFinal);
+        correctMatch.setHomeTeam(secondTeamInFinal);
+        correctMatch.setGameType(GameType.ROUND_OF_SIXTEEN);
+        correctMatchResults.add(correctMatch);
+        
+        
+        GamblerScoreCalculator calc = new GamblerScoreCalculator();
+        Assert.assertEquals("Utregning av spillerpoeng ved et av to korrekte lag i RoundOfSixteen", 8, calc.calculate(gambler, correctMatchResults));
+    }
+    
+    @Test
+    public void testOneOfTwoCorrectTeamsInQuarterFinal(){
+        
+        Team firstTeamInFinal = new Team();
+        firstTeamInFinal.setId(1);
+        
+        Team secondTeamInFinal = new Team();
+        secondTeamInFinal.setId(2);
+        
+        
+        Gambler gambler = new Gambler();
+        List<Match> gamblerMatches = new ArrayList<>();
+        Match betMatch = new Match();
+        betMatch.setAwayTeam(secondTeamInFinal);
+        betMatch.setGameType(GameType.QUARTER_FINALS);
+        gamblerMatches.add(betMatch);
+        gambler.setMatches(gamblerMatches);
+        
+        List<Match> correctMatchResults = new ArrayList<>();
+        Match correctMatch = new Match();
+        correctMatch.setAwayTeam(firstTeamInFinal);
+        correctMatch.setHomeTeam(secondTeamInFinal);
+        correctMatch.setGameType(GameType.QUARTER_FINALS);
+        correctMatchResults.add(correctMatch);
+        
+        
+        GamblerScoreCalculator calc = new GamblerScoreCalculator();
+        Assert.assertEquals("Utregning av spillerpoeng ved et av to korrekte lag i QuarterFinal", 6, calc.calculate(gambler, correctMatchResults));
+    }
+    
+    @Test
+    public void testTwoOfTwoCorrectTeamsInQuarterFinal(){
+        
+        Team firstTeamInFinal = new Team();
+        firstTeamInFinal.setId(1);
+        
+        Team secondTeamInFinal = new Team();
+        secondTeamInFinal.setId(2);
+        
+        
+        Gambler gambler = new Gambler();
+        List<Match> gamblerMatches = new ArrayList<>();
+        Match betMatch = new Match();
+        betMatch.setAwayTeam(secondTeamInFinal);
+        betMatch.setHomeTeam(secondTeamInFinal);
+        betMatch.setGameType(GameType.QUARTER_FINALS);
+        gamblerMatches.add(betMatch);
+        gambler.setMatches(gamblerMatches);
+        
+        List<Match> correctMatchResults = new ArrayList<>();
+        Match correctMatch = new Match();
+        correctMatch.setAwayTeam(firstTeamInFinal);
+        correctMatch.setHomeTeam(secondTeamInFinal);
+        correctMatch.setGameType(GameType.QUARTER_FINALS);
+        correctMatchResults.add(correctMatch);
+        
+        
+        GamblerScoreCalculator calc = new GamblerScoreCalculator();
+        Assert.assertEquals("Utregning av spillerpoeng ved et av to korrekte lag i QuarterFinal", 12, calc.calculate(gambler, correctMatchResults));
+    }
+    
+    @Test
+    public void testTwoOfTwoCorrectTeamsInQuarterFinalOppositeDirection(){
+        
+        Team firstTeamInFinal = new Team();
+        firstTeamInFinal.setId(1);
+        
+        Team secondTeamInFinal = new Team();
+        secondTeamInFinal.setId(2);
+        
+        
+        Gambler gambler = new Gambler();
+        List<Match> gamblerMatches = new ArrayList<>();
+        Match betMatch = new Match();
+        betMatch.setHomeTeam(secondTeamInFinal);
+        betMatch.setAwayTeam(secondTeamInFinal);
+        betMatch.setGameType(GameType.QUARTER_FINALS);
+        gamblerMatches.add(betMatch);
+        gambler.setMatches(gamblerMatches);
+        
+        List<Match> correctMatchResults = new ArrayList<>();
+        Match correctMatch = new Match();
+        correctMatch.setAwayTeam(firstTeamInFinal);
+        correctMatch.setHomeTeam(secondTeamInFinal);
+        correctMatch.setGameType(GameType.QUARTER_FINALS);
+        correctMatchResults.add(correctMatch);
+        
+        
+        GamblerScoreCalculator calc = new GamblerScoreCalculator();
+        Assert.assertEquals("Utregning av spillerpoeng ved et av to korrekte lag i QuarterFinal", 12, calc.calculate(gambler, correctMatchResults));
+    }
+    
+    
+    @Test
+    public void testOneOfTwoCorrectTeamsInSemiFinal(){
+        
+        Team firstTeamInFinal = new Team();
+        firstTeamInFinal.setId(1);
+        
+        Team secondTeamInFinal = new Team();
+        secondTeamInFinal.setId(2);
+        
+        
+        Gambler gambler = new Gambler();
+        List<Match> gamblerMatches = new ArrayList<>();
+        Match betMatch = new Match();
+        betMatch.setAwayTeam(secondTeamInFinal);
+        betMatch.setGameType(GameType.SEMI_FINALS);
+        gamblerMatches.add(betMatch);
+        gambler.setMatches(gamblerMatches);
+        
+        List<Match> correctMatchResults = new ArrayList<>();
+        Match correctMatch = new Match();
+        correctMatch.setAwayTeam(firstTeamInFinal);
+        correctMatch.setHomeTeam(secondTeamInFinal);
+        correctMatch.setGameType(GameType.SEMI_FINALS);
+        correctMatchResults.add(correctMatch);
+        
+        
+        GamblerScoreCalculator calc = new GamblerScoreCalculator();
+        Assert.assertEquals("Utregning av spillerpoeng ved et av to korrekte lag i Semifinalen", 8, calc.calculate(gambler, correctMatchResults));
+    }
+    
+    @Test
+    public void testTwoOfTwoCorrectTeamsInSemiFinal(){
+        
+        Team firstTeamInFinal = new Team();
+        firstTeamInFinal.setId(1);
+        
+        Team secondTeamInFinal = new Team();
+        secondTeamInFinal.setId(2);
+        
+        
+        Gambler gambler = new Gambler();
+        List<Match> gamblerMatches = new ArrayList<>();
+        Match betMatch = new Match();
+        betMatch.setAwayTeam(secondTeamInFinal);
+        betMatch.setHomeTeam(secondTeamInFinal);
+        betMatch.setGameType(GameType.SEMI_FINALS);
+        gamblerMatches.add(betMatch);
+        gambler.setMatches(gamblerMatches);
+        
+        List<Match> correctMatchResults = new ArrayList<>();
+        Match correctMatch = new Match();
+        correctMatch.setAwayTeam(firstTeamInFinal);
+        correctMatch.setHomeTeam(secondTeamInFinal);
+        correctMatch.setGameType(GameType.SEMI_FINALS);
+        correctMatchResults.add(correctMatch);
+        
+        
+        GamblerScoreCalculator calc = new GamblerScoreCalculator();
+        Assert.assertEquals("Utregning av spillerpoeng ved et av to korrekte lag i Semifinalen", 16, calc.calculate(gambler, correctMatchResults));
+    }
+    
+    @Test
+    public void testTwoOfTwoCorrectTeamsInQuarterSemiFinalOppositeDirection(){
+        
+        Team firstTeamInFinal = new Team();
+        firstTeamInFinal.setId(1);
+        
+        Team secondTeamInFinal = new Team();
+        secondTeamInFinal.setId(2);
+        
+        
+        Gambler gambler = new Gambler();
+        List<Match> gamblerMatches = new ArrayList<>();
+        Match betMatch = new Match();
+        betMatch.setHomeTeam(secondTeamInFinal);
+        betMatch.setAwayTeam(secondTeamInFinal);
+        betMatch.setGameType(GameType.SEMI_FINALS);
+        gamblerMatches.add(betMatch);
+        gambler.setMatches(gamblerMatches);
+        
+        List<Match> correctMatchResults = new ArrayList<>();
+        Match correctMatch = new Match();
+        correctMatch.setAwayTeam(firstTeamInFinal);
+        correctMatch.setHomeTeam(secondTeamInFinal);
+        correctMatch.setGameType(GameType.SEMI_FINALS);
+        correctMatchResults.add(correctMatch);
+        
+        
+        GamblerScoreCalculator calc = new GamblerScoreCalculator();
+        Assert.assertEquals("Utregning av spillerpoeng ved et av to korrekte lag i Semifinalen", 16, calc.calculate(gambler, correctMatchResults));
+    }
+    
+    @Test
+    public void testOneOfTwoCorrectTeamsInBronzeFinal(){
+        
+        Team firstTeamInFinal = new Team();
+        firstTeamInFinal.setId(1);
+        
+        Team secondTeamInFinal = new Team();
+        secondTeamInFinal.setId(2);
+        
+        
+        Gambler gambler = new Gambler();
+        List<Match> gamblerMatches = new ArrayList<>();
+        Match betMatch = new Match();
+        betMatch.setAwayTeam(secondTeamInFinal);
+        betMatch.setGameType(GameType.BRONZE_FINAL);
+        gamblerMatches.add(betMatch);
+        gambler.setMatches(gamblerMatches);
+        
+        List<Match> correctMatchResults = new ArrayList<>();
+        Match correctMatch = new Match();
+        correctMatch.setAwayTeam(firstTeamInFinal);
+        correctMatch.setHomeTeam(secondTeamInFinal);
+        correctMatch.setGameType(GameType.BRONZE_FINAL);
+        correctMatchResults.add(correctMatch);
+        
+        
+        GamblerScoreCalculator calc = new GamblerScoreCalculator();
+        Assert.assertEquals("Utregning av spillerpoeng ved et av to korrekte lag i BronseFinalen", 10, calc.calculate(gambler, correctMatchResults));
+    }
+    
+    @Test
+    public void testTwoOfTwoCorrectTeamsInBronzeFinal(){
+        
+        Team firstTeamInFinal = new Team();
+        firstTeamInFinal.setId(1);
+        
+        Team secondTeamInFinal = new Team();
+        secondTeamInFinal.setId(2);
+        
+        
+        Gambler gambler = new Gambler();
+        List<Match> gamblerMatches = new ArrayList<>();
+        Match betMatch = new Match();
+        betMatch.setAwayTeam(secondTeamInFinal);
+        betMatch.setHomeTeam(secondTeamInFinal);
+        betMatch.setGameType(GameType.BRONZE_FINAL);
+        gamblerMatches.add(betMatch);
+        gambler.setMatches(gamblerMatches);
+        
+        List<Match> correctMatchResults = new ArrayList<>();
+        Match correctMatch = new Match();
+        correctMatch.setAwayTeam(firstTeamInFinal);
+        correctMatch.setHomeTeam(secondTeamInFinal);
+        correctMatch.setGameType(GameType.BRONZE_FINAL);
+        correctMatchResults.add(correctMatch);
+        
+        
+        GamblerScoreCalculator calc = new GamblerScoreCalculator();
+        Assert.assertEquals("Utregning av spillerpoeng ved et av to korrekte lag i BronseFinalen", 20, calc.calculate(gambler, correctMatchResults));
+    }
+    
+    @Test
+    public void testTwoOfTwoCorrectTeamsInBronzeFinalOppositeDirection(){
+        
+        Team firstTeamInFinal = new Team();
+        firstTeamInFinal.setId(1);
+        
+        Team secondTeamInFinal = new Team();
+        secondTeamInFinal.setId(2);
+        
+        
+        Gambler gambler = new Gambler();
+        List<Match> gamblerMatches = new ArrayList<>();
+        Match betMatch = new Match();
+        betMatch.setHomeTeam(secondTeamInFinal);
+        betMatch.setAwayTeam(secondTeamInFinal);
+        betMatch.setGameType(GameType.BRONZE_FINAL);
+        gamblerMatches.add(betMatch);
+        gambler.setMatches(gamblerMatches);
+        
+        List<Match> correctMatchResults = new ArrayList<>();
+        Match correctMatch = new Match();
+        correctMatch.setAwayTeam(firstTeamInFinal);
+        correctMatch.setHomeTeam(secondTeamInFinal);
+        correctMatch.setGameType(GameType.BRONZE_FINAL);
+        correctMatchResults.add(correctMatch);
+        
+        
+        GamblerScoreCalculator calc = new GamblerScoreCalculator();
+        Assert.assertEquals("Utregning av spillerpoeng ved et av to korrekte lag i BronseFinalen", 20, calc.calculate(gambler, correctMatchResults));
+    }
+    
+    @Test
+    public void testOneOfTwoCorrectTeamsInFinal(){
+        
+        Team firstTeamInFinal = new Team();
+        firstTeamInFinal.setId(1);
+        
+        Team secondTeamInFinal = new Team();
+        secondTeamInFinal.setId(2);
+        
+        
+        Gambler gambler = new Gambler();
+        List<Match> gamblerMatches = new ArrayList<>();
+        Match betMatch = new Match();
+        betMatch.setAwayTeam(secondTeamInFinal);
+        betMatch.setGameType(GameType.FINAL);
+        gamblerMatches.add(betMatch);
+        gambler.setMatches(gamblerMatches);
+        
+        List<Match> correctMatchResults = new ArrayList<>();
+        Match correctMatch = new Match();
+        correctMatch.setAwayTeam(firstTeamInFinal);
+        correctMatch.setHomeTeam(secondTeamInFinal);
+        correctMatch.setGameType(GameType.FINAL);
+        correctMatchResults.add(correctMatch);
+        
+        
+        GamblerScoreCalculator calc = new GamblerScoreCalculator();
+        Assert.assertEquals("Utregning av spillerpoeng ved et av to korrekte lag i Finalen", 12, calc.calculate(gambler, correctMatchResults));
+    }
+    
+    @Test
+    public void testTwoOfTwoCorrectTeamsInFinal(){
+        
+        Team firstTeamInFinal = new Team();
+        firstTeamInFinal.setId(1);
+        
+        Team secondTeamInFinal = new Team();
+        secondTeamInFinal.setId(2);
+        
+        
+        Gambler gambler = new Gambler();
+        List<Match> gamblerMatches = new ArrayList<>();
+        Match betMatch = new Match();
+        betMatch.setAwayTeam(secondTeamInFinal);
+        betMatch.setHomeTeam(secondTeamInFinal);
+        betMatch.setGameType(GameType.FINAL);
+        gamblerMatches.add(betMatch);
+        gambler.setMatches(gamblerMatches);
+        
+        List<Match> correctMatchResults = new ArrayList<>();
+        Match correctMatch = new Match();
+        correctMatch.setAwayTeam(firstTeamInFinal);
+        correctMatch.setHomeTeam(secondTeamInFinal);
+        correctMatch.setGameType(GameType.FINAL);
+        correctMatchResults.add(correctMatch);
+        
+        
+        GamblerScoreCalculator calc = new GamblerScoreCalculator();
+        Assert.assertEquals("Utregning av spillerpoeng ved et av to korrekte lag i Finalen", 24, calc.calculate(gambler, correctMatchResults));
+    }
+    
+    @Test
+    public void testTwoOfTwoCorrectTeamsInFinalOppositeDirection(){
+        
+        Team firstTeamInFinal = new Team();
+        firstTeamInFinal.setId(1);
+        
+        Team secondTeamInFinal = new Team();
+        secondTeamInFinal.setId(2);
+        
+        
+        Gambler gambler = new Gambler();
+        List<Match> gamblerMatches = new ArrayList<>();
+        Match betMatch = new Match();
+        betMatch.setHomeTeam(secondTeamInFinal);
+        betMatch.setAwayTeam(secondTeamInFinal);
+        betMatch.setGameType(GameType.FINAL);
+        gamblerMatches.add(betMatch);
+        gambler.setMatches(gamblerMatches);
+        
+        List<Match> correctMatchResults = new ArrayList<>();
+        Match correctMatch = new Match();
+        correctMatch.setAwayTeam(firstTeamInFinal);
+        correctMatch.setHomeTeam(secondTeamInFinal);
+        correctMatch.setGameType(GameType.FINAL);
+        correctMatchResults.add(correctMatch);
+        
+        
+        GamblerScoreCalculator calc = new GamblerScoreCalculator();
+        Assert.assertEquals("Utregning av spillerpoeng ved et av to korrekte lag i Finalen", 24, calc.calculate(gambler, correctMatchResults));
+    }
+    
+    @Test
+    public void testCompleteRoundOfSixteen(){
+        
+        Gambler gambler = new Gambler();
+        List<Match> gamblerMatches = createCompleteMatchSetForFinals();
+        gambler.setMatches(gamblerMatches);
+        
+        List<Match> correctMatchResults = createCompleteMatchSetForFinals();
+        
+        GamblerScoreCalculator calc = new GamblerScoreCalculator();
+        Assert.assertEquals("Utregning av spillerpoeng ved alle riktige lag i Round of Sixteen", 188, calc.calculate(gambler, correctMatchResults));
+    }
+    
+    
+    
+    private List<Match> createCompleteMatchSetForFinals(){
+        
+        Team team1 = new Team();
+        team1.setId(1);
+        Team team2 = new Team();
+        team1.setId(2);
+        Team team3 = new Team();
+        team1.setId(3);
+        Team team4 = new Team();
+        team1.setId(4);
+        Team team5 = new Team();
+        team1.setId(5);
+        Team team6 = new Team();
+        team1.setId(6);
+        Team team7 = new Team();
+        team1.setId(7);
+        Team team8 = new Team();
+        team1.setId(8);
+        Team team9 = new Team();
+        team1.setId(9);
+        Team team10 = new Team();
+        team1.setId(10);
+        Team team11 = new Team();
+        team1.setId(11);
+        Team team12 = new Team();
+        team1.setId(12);
+        Team team13 = new Team();
+        team1.setId(13);
+        Team team14 = new Team();
+        team1.setId(14);
+        Team team15 = new Team();
+        team1.setId(15);
+        Team team16 = new Team();
+        team1.setId(16);
+        
+        List<Match> completeSetOfMatches = new ArrayList<>();
+        
+        Match sixteenMatch1 = new Match();
+        sixteenMatch1.setHomeTeam(team1);
+        sixteenMatch1.setAwayTeam(team2);
+        sixteenMatch1.setGameType(GameType.ROUND_OF_SIXTEEN);
+        completeSetOfMatches.add(sixteenMatch1);
+        
+        Match sixteenMatch2 = new Match();
+        sixteenMatch2.setHomeTeam(team3);
+        sixteenMatch2.setAwayTeam(team4);
+        sixteenMatch2.setGameType(GameType.ROUND_OF_SIXTEEN);
+        completeSetOfMatches.add(sixteenMatch2);
+        
+        Match sixteenMatch3 = new Match();
+        sixteenMatch3.setHomeTeam(team5);
+        sixteenMatch3.setAwayTeam(team6);
+        sixteenMatch3.setGameType(GameType.ROUND_OF_SIXTEEN);
+        completeSetOfMatches.add(sixteenMatch3);
+        
+        Match sixteenMatch4 = new Match();
+        sixteenMatch4.setHomeTeam(team7);
+        sixteenMatch4.setAwayTeam(team8);
+        sixteenMatch4.setGameType(GameType.ROUND_OF_SIXTEEN);
+        completeSetOfMatches.add(sixteenMatch4);
+        
+        Match sixteenMatch5 = new Match();
+        sixteenMatch5.setHomeTeam(team9);
+        sixteenMatch5.setAwayTeam(team10);
+        sixteenMatch5.setGameType(GameType.ROUND_OF_SIXTEEN);
+        completeSetOfMatches.add(sixteenMatch5);
+        
+        Match sixteenMatch6 = new Match();
+        sixteenMatch6.setHomeTeam(team11);
+        sixteenMatch6.setAwayTeam(team12);
+        sixteenMatch6.setGameType(GameType.ROUND_OF_SIXTEEN);
+        completeSetOfMatches.add(sixteenMatch6);
+        
+        Match sixteenMatch7 = new Match();
+        sixteenMatch7.setHomeTeam(team13);
+        sixteenMatch7.setAwayTeam(team14);
+        sixteenMatch7.setGameType(GameType.ROUND_OF_SIXTEEN);
+        completeSetOfMatches.add(sixteenMatch7);
+        
+        Match sixteenMatch8 = new Match();
+        sixteenMatch8.setHomeTeam(team15);
+        sixteenMatch8.setAwayTeam(team16);
+        sixteenMatch8.setGameType(GameType.ROUND_OF_SIXTEEN);
+        completeSetOfMatches.add(sixteenMatch8);
+        
+        
+        Match quarterFinalMatch1 = new Match();
+        quarterFinalMatch1.setHomeTeam(team1);
+        quarterFinalMatch1.setAwayTeam(team2);
+        quarterFinalMatch1.setGameType(GameType.QUARTER_FINALS);
+        completeSetOfMatches.add(quarterFinalMatch1);
+        
+        Match quarterFinalMatch2 = new Match();
+        quarterFinalMatch2.setHomeTeam(team3);
+        quarterFinalMatch2.setAwayTeam(team4);
+        quarterFinalMatch2.setGameType(GameType.QUARTER_FINALS);
+        completeSetOfMatches.add(quarterFinalMatch2);
+        
+        Match quarterFinalMatch3 = new Match();
+        quarterFinalMatch3.setHomeTeam(team5);
+        quarterFinalMatch3.setAwayTeam(team6);
+        quarterFinalMatch3.setGameType(GameType.QUARTER_FINALS);
+        completeSetOfMatches.add(quarterFinalMatch3);
+        
+        Match quarterFinalMatch4 = new Match();
+        quarterFinalMatch4.setHomeTeam(team7);
+        quarterFinalMatch4.setAwayTeam(team8);
+        quarterFinalMatch4.setGameType(GameType.QUARTER_FINALS);
+        completeSetOfMatches.add(quarterFinalMatch4);
+        
+        Match semiFinalMatch1 = new Match();
+        semiFinalMatch1.setHomeTeam(team1);
+        semiFinalMatch1.setAwayTeam(team2);
+        semiFinalMatch1.setGameType(GameType.SEMI_FINALS);
+        completeSetOfMatches.add(semiFinalMatch1);
+        
+        Match semiFinalMatch2 = new Match();
+        semiFinalMatch2.setHomeTeam(team3);
+        semiFinalMatch2.setAwayTeam(team4);
+        semiFinalMatch2.setGameType(GameType.SEMI_FINALS);
+        completeSetOfMatches.add(semiFinalMatch2);
+        
+        Match bronzeFinalMatch = new Match();
+        bronzeFinalMatch.setHomeTeam(team1);
+        bronzeFinalMatch.setAwayTeam(team2);
+        bronzeFinalMatch.setGameType(GameType.BRONZE_FINAL);
+        completeSetOfMatches.add(bronzeFinalMatch);
+        
+        Match finalMatch = new Match();
+        finalMatch.setHomeTeam(team3);
+        finalMatch.setAwayTeam(team4);
+        finalMatch.setGameType(GameType.FINAL);
+        completeSetOfMatches.add(finalMatch);
+        
+        return completeSetOfMatches;
     }
 }
