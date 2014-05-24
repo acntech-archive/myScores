@@ -92,6 +92,48 @@
     </dependencyManagement>
 
     <build>
-
+        <plugins>
+            <plugin>
+                <groupId>org.glassfish.maven.plugin</groupId>
+                <artifactId>maven-glassfish-plugin</artifactId>
+                <version>2.1</version>
+                <configuration>
+                    <glassfishDirectory>${local.glassfish.home}</glassfishDirectory>
+                    <user>${local.glassfish.user}</user>
+                    <passwordFile>${local.glassfish.passfile}</passwordFile>
+                    <domain>
+                        <name>${local.glassfish.domain}</name>
+                        <httpPort>8080</httpPort>
+                        <adminPort>4848</adminPort>
+                    </domain>
+                    <components>
+                        <component>
+                            <name>${project.artifactId}</name>
+                            <artifact>api/target/myscores-api-${project.version}.war</artifact>
+                        </component>
+                    </components>
+                    <debug>true</debug>
+                    <terse>false</terse>
+                    <echo>true</echo>
+                </configuration>
+            </plugin>
+        </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>deploy-glassfish</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <local.glassfish.home>${env.HOME}/apps/glassfish/gf4/glassfish</local.glassfish.home>
+                <local.glassfish.user>admin</local.glassfish.user>
+                <local.glassfish.domain>domain1</local.glassfish.domain>
+                <local.glassfish.passfile>
+                    ${local.glassfish.home}/domains/${local.glassfish.domain}/config/domain-passwords
+                </local.glassfish.passfile>
+            </properties>
+        </profile>
+    </profiles>
 </project>

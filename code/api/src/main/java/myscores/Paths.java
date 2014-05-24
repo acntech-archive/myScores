@@ -6,8 +6,12 @@ public interface Paths {
     String PING = "/ping";
 
     String GAMBLER = "/gambler";
+    String GET_GAMBLER = "/get/{name}";
+    String FIND_GAMBLERS = "/find";
+    String REGISTER_GAMBLER = "/register";
+    String ACTIVATE_GAMBLER = "/activate";
+
     String MATCH = "/match";
-    String LIST = "/list";
-    String REGISTER = "/register";
-    String ACTIVATE = "/activate";
+
+    String NAME = "{name}";
 }

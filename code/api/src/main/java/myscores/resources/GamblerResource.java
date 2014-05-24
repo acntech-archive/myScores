@@ -2,41 +2,47 @@ package myscores.resources;
 
 import myscores.Paths;
 import myscores.domain.Gambler;
+import myscores.rules.GamblerService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import java.util.ArrayList;
+import javax.inject.Inject;
+import javax.ws.rs.*;
 import java.util.List;
 
 @Path(Paths.GAMBLER)
 public class GamblerResource {
 
-    @GET
-    @Path(Paths.LIST)
-    public List<Gambler> list() {
-        System.out.println("LIST");
+    private static final Logger LOGGER = LoggerFactory.getLogger(GamblerResource.class);
 
-        List<Gambler> gamblers = new ArrayList<>();
-        Gambler gambler = new Gambler();
-        gambler.setId(1);
-        gambler.setName("TestGambler");
-        gamblers.add(gambler);
-        return gamblers;
+    @Inject
+    private GamblerService service;
+
+    @GET
+    @Path(Paths.GET_GAMBLER)
+    public Gambler get(@PathParam(Paths.NAME) String name) {
+        LOGGER.info("GET");
+        return service.get(name);
+    }
+
+    @GET
+    @Path(Paths.FIND_GAMBLERS)
+    public List<Gambler> find() {
+        LOGGER.info("FIND");
+        return service.list();
     }
 
     @POST
-    @Path(Paths.REGISTER)
+    @Path(Paths.REGISTER_GAMBLER)
     public String register(Gambler gambler) {
-        System.out.println("REGISTER");
-        return "Success";
+        LOGGER.info("REGISTER");
+        return service.register(gambler);
     }
 
     @PUT
-    @Path(Paths.ACTIVATE)
+    @Path(Paths.ACTIVATE_GAMBLER)
     public String activate(String name) {
-        System.out.println("ACTIVATE");
-        return "Success";
+        LOGGER.info("ACTIVATE");
+        return service.activate(name);
     }
 }
