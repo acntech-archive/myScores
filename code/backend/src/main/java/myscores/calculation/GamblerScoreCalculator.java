@@ -5,8 +5,8 @@ import java.util.List;
 import myscores.domain.Gambler;
 import myscores.domain.GameType;
 import myscores.domain.Match;
-import myscores.domain.Result;
 import myscores.domain.Team;
+import myscores.domain.Winner;
 
 public class GamblerScoreCalculator {
 
@@ -17,13 +17,21 @@ public class GamblerScoreCalculator {
     private static final int TEAM_IN_SEMI_FINAL_SCORE = 8;
     private static final int TEAM_IN_BRONZE_FINAL_SCORE = 10;
     private static final int TEAM_IN_FINAL_SCORE = 12;
+    private static final int TEAM_IN_BRONZE_SCORE = 14;
+    private static final int TEAM_IN_GOLD_SCORE = 16;
 
     public int calculate(Gambler gambler, List<Match> correctMatchResults) {
 
         int gamblerScore = 0;
 
         for (Match correctMatch : correctMatchResults) {
-            gamblerScore += calculateGroupGameScore(findGamblerMatch(gambler, correctMatch.getId()), correctMatch);
+            if (correctMatch.getGameType() == GameType.GROUP_GAME) {
+                gamblerScore += calculateGroupGameScore(findGamblerMatch(gambler, correctMatch.getId()), correctMatch);
+            } else if (correctMatch.getGameType() == GameType.BRONZE_FINAL) {
+                gamblerScore += calculateBronzeWinnerScore(findGamblerMatch(gambler, correctMatch.getId()), correctMatch);
+            } else if (correctMatch.getGameType() == GameType.FINAL) {
+                gamblerScore += calculateWinnerScore(findGamblerMatch(gambler, correctMatch.getId()), correctMatch);
+            }
         }
 
         gamblerScore += calculateRoundOfSixteenScore(gambler, correctMatchResults);
@@ -119,6 +127,36 @@ public class GamblerScoreCalculator {
             }
         }
         return groupGameScore;
+    }
+
+    private int calculateBronzeWinnerScore(Match gamblerMatch, Match correctMatch) {
+
+        Team winnerTeamGambler = findWinnerTeam(gamblerMatch);
+        Team correctWinnerTeam = findWinnerTeam(correctMatch);
+
+        if (winnerTeamGambler.getId() == correctWinnerTeam.getId()) {
+            return TEAM_IN_BRONZE_SCORE;
+        }
+        return 0;
+    }
+
+    private int calculateWinnerScore(Match gamblerMatch, Match correctMatch) {
+
+        Team winnerTeamGambler = findWinnerTeam(gamblerMatch);
+        Team correctWinnerTeam = findWinnerTeam(correctMatch);
+
+        if (winnerTeamGambler.getId() == correctWinnerTeam.getId()) {
+            return TEAM_IN_GOLD_SCORE;
+        }
+        return 0;
+    }
+
+    private Team findWinnerTeam(Match match) {
+        if (match.getResult().getWinner() == Winner.HOMETEAM) {
+            return match.getHomeTeam();
+        } else {
+            return match.getAwayTeam();
+        }
     }
 
     private boolean isCorrectWinner(Match gamblerMatch, Match correctMatch) {
