@@ -20,6 +20,7 @@
         <logback.version>1.0.7</logback.version>
         <javaee-api.version>7.0</javaee-api.version>
         <jackson.version>1.9.13</jackson.version>
+        <jersey.version>2.8</jersey.version>
     </properties>
 
     <!-- MODULES -->
@@ -88,6 +89,14 @@
                 <artifactId>myscores-backend</artifactId>
                 <version>${project.version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>org.glassfish.jersey.core</groupId>
+                <artifactId>jersey-client</artifactId>
+                <version>${jersey.version}</version>
+                <scope>provided</scope>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 
