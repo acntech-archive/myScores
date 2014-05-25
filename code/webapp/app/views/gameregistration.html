@@ -1,0 +1,33 @@
+<div >
+    
+    
+    
+    <select ng-model="city" ng-options="c for c in cities"></select>
+    
+    
+    <table>
+    <tbody ng-repeat="group in groups">
+        <tr>
+            <td>{{group.name}}</td>
+            <td>Wins</td>
+            <td>Draws</td>
+            <td>Losses</td>
+            <td>Points</td>
+        </tr>
+        <tr ng-repeat="team in group.teams | orderBy:[calculateTotal,'-name']:true">
+            <td>{{team.name}}</td>
+            <td>{{team.wins}}</td>
+            <td>{{team.draws}}</td>
+            <td>{{team.losses}}</td>
+            <td>{{calculateTotal(team)}}</td>
+        </tr>
+    </tbody>
+</table>
+</div>
+<p>Drag and drop fra teamliste
+    Sette opp treet i henhold til skjema
+    Vise gruppene
+    maks antall i gruppa er 4 i 2014
+    Regler for hvem videre? Gitt i 2014
+    Tidspunkt
+    Sted </p>
