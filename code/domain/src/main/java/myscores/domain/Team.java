@@ -1,9 +1,9 @@
 package myscores.domain;
 
 public class Team {
-    
+
     private int id;
-    private String teamName;
+    private String name;
 
     public int getId() {
         return id;
@@ -13,13 +13,11 @@ public class Team {
         this.id = id;
     }
 
-    public String getTeamName() {
-        return teamName;
+    public String getName() {
+        return name;
     }
 
-    public void setTeamName(String teamName) {
-        this.teamName = teamName;
+    public void setName(String name) {
+        this.name = name;
     }
-    
-    
 }

@@ -12,11 +12,33 @@
     <artifactId>myscores-api</artifactId>
     <packaging>war</packaging>
 
+    <!-- PROPERTIES -->
     <properties>
         <failOnMissingWebXml>false</failOnMissingWebXml>
     </properties>
 
+    <!-- DEPENDENCIES -->
     <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>javax</groupId>
+            <artifactId>javaee-api</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>org.codehaus.jackson</groupId>
             <artifactId>jackson-jaxrs</artifactId>

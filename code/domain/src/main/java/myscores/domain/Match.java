@@ -1,11 +1,12 @@
 package myscores.domain;
 
 public class Match {
-    
+
     private int id;
     private Team homeTeam;
     private Team awayTeam;
     private Result result;
+    private GameType gameType;
 
     public int getId() {
         return id;
@@ -38,6 +39,12 @@ public class Match {
     public void setResult(Result result) {
         this.result = result;
     }
-    
-    
+
+    public GameType getGameType() {
+        return gameType;
+    }
+
+    public void setGameType(GameType gameType) {
+        this.gameType = gameType;
+    }
 }

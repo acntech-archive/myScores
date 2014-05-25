@@ -1,10 +1,18 @@
 package myscores.domain;
 
+import javax.validation.constraints.NotNull;
+import java.util.List;
+
 public class Gambler {
-    
+
     private int id;
+
+    @NotNull
     private String name;
+
     private boolean active;
+
+    private List<Match> matches;
 
     public int getId() {
         return id;
@@ -29,6 +37,14 @@ public class Gambler {
     public void setActive(boolean active) {
         this.active = active;
     }
-    
-    
+
+    public List<Match> getMatches() {
+        return matches;
+    }
+
+    public void setMatches(List<Match> matches) {
+        this.matches = matches;
+    }
+
+
 }

@@ -20,38 +20,19 @@
         <logback.version>1.0.7</logback.version>
         <javaee-api.version>7.0</javaee-api.version>
         <jackson.version>1.9.13</jackson.version>
+        <jersey.version>2.8</jersey.version>
+        <neo4j.version>2.0.3</neo4j.version>
     </properties>
 
     <!-- MODULES -->
     <modules>
+        <module>domain</module>
         <module>backend</module>
         <module>api</module>
-        <!--<module>webapp</module>-->
+        <module>webapp</module>
     </modules>
 
     <!-- DEPENDENCIES -->
-    <dependencies>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>javax</groupId>
-            <artifactId>javaee-api</artifactId>
-        </dependency>
-    </dependencies>
-
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -100,9 +81,75 @@
 
             <dependency>
                 <groupId>${project.groupId}</groupId>
+                <artifactId>myscores-domain</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
                 <artifactId>myscores-backend</artifactId>
                 <version>${project.version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>org.glassfish.jersey.core</groupId>
+                <artifactId>jersey-client</artifactId>
+                <version>${jersey.version}</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.neo4j</groupId>
+                <artifactId>neo4j</artifactId>
+                <version>${neo4j.version}</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.glassfish.maven.plugin</groupId>
+                <artifactId>maven-glassfish-plugin</artifactId>
+                <version>2.1</version>
+                <configuration>
+                    <glassfishDirectory>${local.glassfish.home}</glassfishDirectory>
+                    <user>${local.glassfish.user}</user>
+                    <passwordFile>${local.glassfish.passfile}</passwordFile>
+                    <domain>
+                        <name>${local.glassfish.domain}</name>
+                        <httpPort>8080</httpPort>
+                        <adminPort>4848</adminPort>
+                    </domain>
+                    <components>
+                        <component>
+                            <name>${project.artifactId}</name>
+                            <artifact>api/target/myscores-api-${project.version}.war</artifact>
+                        </component>
+                    </components>
+                    <debug>true</debug>
+                    <terse>false</terse>
+                    <echo>true</echo>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <profiles>
+        <profile>
+            <id>deploy-glassfish</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <local.glassfish.home>${env.HOME}/apps/glassfish/gf4/glassfish</local.glassfish.home>
+                <local.glassfish.user>admin</local.glassfish.user>
+                <local.glassfish.domain>domain1</local.glassfish.domain>
+                <local.glassfish.passfile>
+                    ${local.glassfish.home}/domains/${local.glassfish.domain}/config/domain-passwords
+                </local.glassfish.passfile>
+            </properties>
+        </profile>
+    </profiles>
 </project>

@@ -12,6 +12,7 @@
     <artifactId>myscores-webapp</artifactId>
     <packaging>war</packaging>
 
+    <!-- PROPERTIES -->
     <properties>
         <failOnMissingWebXml>false</failOnMissingWebXml>
     </properties>
