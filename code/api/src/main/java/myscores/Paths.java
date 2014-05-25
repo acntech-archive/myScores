@@ -13,7 +13,8 @@ public interface Paths {
 
     String GAMBLER = "/gambler";
     String MATCH = "/match";
+    String TEAM = "/team";
 
-    String NAME = "{name}";
-    String ID = "{id}";
+    String NAME = "name";
+    String ID = "id";
 }

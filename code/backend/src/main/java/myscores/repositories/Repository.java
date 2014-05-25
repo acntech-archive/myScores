@@ -1,39 +1,48 @@
 package myscores.repositories;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public abstract class Repository<T> {
 
-    protected final Map<String, T> REPO = new HashMap<>();
+    private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
+
+    protected abstract Map<String, T> getRepo();
 
     public T read(String id) {
-        return REPO.get(id);
+        LOGGER.info("Read data for id {}", id);
+        return getRepo().get(id);
     }
 
     public List<T> find() {
-        return new ArrayList<>(REPO.values());
+        LOGGER.info("Find data");
+        return new ArrayList<>(getRepo().values());
     }
 
-    public synchronized T create(String id, T data) {
-        if (!REPO.containsKey(id)) {
-            return REPO.put(id, data);
+    public synchronized void create(String id, T data) {
+        if (!getRepo().containsKey(id)) {
+            LOGGER.info("Create data with id {}", id);
+            getRepo().put(id, data);
         } else {
-            return null;
+            LOGGER.warn("Create data failed. Data with id {} already exists", id);
         }
     }
 
-    public synchronized T update(String id, T data) {
-        if (REPO.containsKey(id)) {
-            return REPO.put(id, data);
+    public synchronized void update(String id, T data) {
+        if (getRepo().containsKey(id)) {
+            LOGGER.info("Update data with id {}", id);
+            getRepo().put(id, data);
         } else {
-            return null;
+            LOGGER.warn("Update data failed. Data with id {} not found", id);
         }
     }
 
-    public synchronized T delete(String id) {
-        return REPO.remove(id);
+    public synchronized void delete(String id) {
+        LOGGER.info("Delete data with id {}", id);
+        getRepo().remove(id);
     }
 }

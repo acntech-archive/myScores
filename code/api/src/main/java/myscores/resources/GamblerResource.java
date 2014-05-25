@@ -21,7 +21,7 @@ public class GamblerResource {
     @GET
     @Path(Paths.GET_NAME)
     public Gambler get(@PathParam(Paths.NAME) String name) {
-        LOGGER.info("GET");
+        LOGGER.info("Get gambler {}", name);
         return service.get(name);
     }
 
@@ -29,7 +29,7 @@ public class GamblerResource {
     @Path(Paths.FIND)
     public List<Gambler> find() {
         LOGGER.info("FIND");
-        return service.list();
+        return service.find();
     }
 
     @POST
@@ -39,7 +39,7 @@ public class GamblerResource {
         if (service.register(gambler)) {
             return "Gambler '" + gambler.getName() + "' registered successfully";
         } else {
-            return "Gambler '" + gambler.getName() + "' could not registered";
+            return "Gambler '" + gambler.getName() + "' could not be registered";
         }
     }
 

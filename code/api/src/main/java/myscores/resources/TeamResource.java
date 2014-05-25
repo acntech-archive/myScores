@@ -13,7 +13,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import java.util.List;
 
-@Path(Paths.MATCH)
+@Path(Paths.TEAM)
 public class TeamResource {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TeamResource.class);

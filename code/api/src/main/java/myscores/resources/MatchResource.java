@@ -32,7 +32,7 @@ public class MatchResource {
     @Path(Paths.FIND)
     public List<Match> find() {
         LOGGER.info("FIND");
-        return service.list();
+        return service.find();
     }
 
     @POST
