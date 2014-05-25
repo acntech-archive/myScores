@@ -19,23 +19,23 @@ public class GamblerResource {
     private GamblerService service;
 
     @GET
-    @Path(Paths.GET_NAME)
-    public Gambler get(@PathParam(Paths.NAME) String name) {
-        LOGGER.info("Get gambler {}", name);
-        return service.get(name);
+    @Path(Paths.GET)
+    public Gambler get(@PathParam(Paths.ID) String id) {
+        LOGGER.info("Get gambler with id {}", id);
+        return service.get(Integer.parseInt(id));
     }
 
     @GET
     @Path(Paths.FIND)
     public List<Gambler> find() {
-        LOGGER.info("FIND");
+        LOGGER.info("Find gamblers");
         return service.find();
     }
 
     @POST
     @Path(Paths.REGISTER)
     public String register(Gambler gambler) {
-        LOGGER.info("REGISTER");
+        LOGGER.info("Register gambler");
         if (service.register(gambler)) {
             return "Gambler '" + gambler.getName() + "' registered successfully";
         } else {
@@ -45,12 +45,12 @@ public class GamblerResource {
 
     @PUT
     @Path(Paths.ACTIVATE)
-    public String activate(String name) {
-        LOGGER.info("ACTIVATE");
-        if (service.activate(name)) {
-            return "Gambler '" + name + "' activated successfully";
+    public String activate(String id) {
+        LOGGER.info("Activate gambler");
+        if (service.activate(Integer.parseInt(id))) {
+            return "Gambler with id " + id + " activated successfully";
         } else {
-            return "Gambler '" + name + "' could not activated";
+            return "Gambler with id " + id + " could not activated";
         }
     }
 }

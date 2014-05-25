@@ -22,23 +22,23 @@ public class TeamResource {
     private TeamService service;
 
     @GET
-    @Path(Paths.GET_ID)
-    public Team get(@PathParam(Paths.NAME) String id) {
-        LOGGER.info("GET");
-        return service.get(id);
+    @Path(Paths.GET)
+    public Team get(@PathParam(Paths.ID) String id) {
+        LOGGER.info("Get team with id {}", id);
+        return service.get(Integer.parseInt(id));
     }
 
     @GET
     @Path(Paths.FIND)
     public List<Team> find() {
-        LOGGER.info("FIND");
+        LOGGER.info("Find teams");
         return service.find();
     }
 
     @POST
     @Path(Paths.REGISTER)
     public String register(Team team) {
-        LOGGER.info("REGISTER");
+        LOGGER.info("Register team");
         if (service.register(team)) {
             return "Team '" + team.getName() + "' registered successfully";
         } else {

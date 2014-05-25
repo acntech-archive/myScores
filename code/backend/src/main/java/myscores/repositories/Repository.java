@@ -1,48 +1,22 @@
 package myscores.repositories;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public abstract class Repository<T> {
 
-    private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
+    private int id = 0;
 
-    protected abstract Map<String, T> getRepo();
-
-    public T read(String id) {
-        LOGGER.info("Read data for id {}", id);
-        return getRepo().get(id);
+    public int getNextId() {
+        return ++id;
     }
 
-    public List<T> find() {
-        LOGGER.info("Find data");
-        return new ArrayList<>(getRepo().values());
-    }
+    public abstract T read(int id);
 
-    public synchronized void create(String id, T data) {
-        if (!getRepo().containsKey(id)) {
-            LOGGER.info("Create data with id {}", id);
-            getRepo().put(id, data);
-        } else {
-            LOGGER.warn("Create data failed. Data with id {} already exists", id);
-        }
-    }
+    public abstract List<T> find();
 
-    public synchronized void update(String id, T data) {
-        if (getRepo().containsKey(id)) {
-            LOGGER.info("Update data with id {}", id);
-            getRepo().put(id, data);
-        } else {
-            LOGGER.warn("Update data failed. Data with id {} not found", id);
-        }
-    }
+    public abstract void create(T data);
 
-    public synchronized void delete(String id) {
-        LOGGER.info("Delete data with id {}", id);
-        getRepo().remove(id);
-    }
+    public abstract void update(T data);
+
+    public abstract void delete(int id);
 }

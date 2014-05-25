@@ -2,22 +2,23 @@ package myscores.services;
 
 import myscores.domain.Gambler;
 import myscores.repositories.GamblerRepository;
+import myscores.repositories.RepositoryException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 import java.util.List;
 
-public class GamblerService {
+public class GamblerService extends Service {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GamblerService.class);
 
     @Inject
     private GamblerRepository repository;
 
-    public Gambler get(String name) {
-        LOGGER.info("Get gambler for name {}", name);
-        return repository.read(name);
+    public Gambler get(int id) {
+        LOGGER.info("Get gambler for id {}", id);
+        return repository.read(id);
     }
 
     public List<Gambler> find() {
@@ -26,25 +27,31 @@ public class GamblerService {
     }
 
     public boolean register(Gambler gambler) {
-        String id = "" + gambler.getId();
+        int id = repository.getNextId();
         LOGGER.info("Register gambler with id {}", id);
-        repository.create(id, gambler);
-        return Boolean.TRUE;
+        gambler.setId(id);
+        gambler.setActive(Boolean.FALSE);
+        try {
+            repository.create(gambler);
+            return Boolean.TRUE;
+        } catch (RepositoryException e) {
+            LOGGER.error("Error while registering gambler with id " + id, e);
+            return Boolean.FALSE;
+        }
     }
 
-    public boolean activate(String name) {
-        Gambler gambler = repository.read(name);
+    public boolean activate(int id) {
+        Gambler gambler = repository.read(id);
         if (gambler == null) {
-            LOGGER.info("No gambler found for name {}", name);
+            LOGGER.warn("No gambler found for id {}", id);
             return Boolean.FALSE;
         } else if (gambler.isActive()) {
-            LOGGER.info("Gambler with name {} is already active", name);
+            LOGGER.warn("Gambler with id {} is already active", id);
             return Boolean.FALSE;
         } else {
-            String id = "" + gambler.getId();
-            LOGGER.info("Activate gambler with name {}", name);
+            LOGGER.info("Activate gambler with id {}", id);
             gambler.setActive(Boolean.TRUE);
-            repository.update(id, gambler);
+            repository.update(gambler);
             return Boolean.TRUE;
         }
     }

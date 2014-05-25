@@ -22,27 +22,27 @@ public class MatchResource {
     private MatchService service;
 
     @GET
-    @Path(Paths.GET_ID)
-    public Match get(@PathParam(Paths.NAME) String id) {
-        LOGGER.info("GET");
-        return service.get(id);
+    @Path(Paths.GET)
+    public Match get(@PathParam(Paths.ID) String id) {
+        LOGGER.info("Get match with id {}", id);
+        return service.get(Integer.parseInt(id));
     }
 
     @GET
     @Path(Paths.FIND)
     public List<Match> find() {
-        LOGGER.info("FIND");
+        LOGGER.info("Find matches");
         return service.find();
     }
 
     @POST
     @Path(Paths.REGISTER)
     public String register(Match match) {
-        LOGGER.info("REGISTER");
+        LOGGER.info("Register match");
         if (service.register(match)) {
-            return "Match '" + match.getId() + "' registered successfully";
+            return "Match " + match.getId() + " registered successfully";
         } else {
-            return "Match '" + match.getId() + "' could not registered";
+            return "Match " + match.getId() + " could not registered";
         }
     }
 }
