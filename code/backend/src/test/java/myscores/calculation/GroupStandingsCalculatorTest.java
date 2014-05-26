@@ -15,90 +15,39 @@ public class GroupStandingsCalculatorTest {
     
     @Test
     public void testFinishedGroup() {
-        Team team1 = createTeam(1,"Brazil");
-        Team team2 = createTeam(2,"Mexico");
-        Team team3 = createTeam(3,"Croatia");
-        Team team4 = createTeam(4,"Cameroon");        
+        Team brazil = TestUtils.createTeam(1,"Brazil");
+        Team mexico = TestUtils.createTeam(2,"Mexico");
+        Team croatia = TestUtils.createTeam(3,"Croatia");
+        Team cameroon = TestUtils.createTeam(4,"Cameroon");        
         
-        Match match1 = createMatch(1, team1, team3, GameType.GROUP_GAME, createResult(1, 1, 0));
-        Match match2 = createMatch(2, team2, team4, GameType.GROUP_GAME, createResult(2, 2, 2));
-        Match match16 = createMatch(16, team1, team2, GameType.GROUP_GAME, createResult(16, 1, 2));
-        Match match19 = createMatch(19, team4, team3, GameType.GROUP_GAME, createResult(19, 1, 1));
-        Match match35 = createMatch(35, team4, team1, GameType.GROUP_GAME, createResult(35, 2, 4));
-        Match match36 = createMatch(36, team3, team2, GameType.GROUP_GAME, createResult(36, 0, 1));
+        Match match1 = TestUtils.createMatch(1, brazil, croatia, GameType.GROUP_GAME, TestUtils.createResult(1, 1, 0));
+        Match match2 = TestUtils.createMatch(2, mexico, cameroon, GameType.GROUP_GAME, TestUtils.createResult(2, 2, 2));
+        Match match16 = TestUtils.createMatch(16, brazil, mexico, GameType.GROUP_GAME, TestUtils.createResult(16, 1, 2));
+        Match match19 = TestUtils.createMatch(19, cameroon, croatia, GameType.GROUP_GAME, TestUtils.createResult(19, 1, 1));
+        Match match35 = TestUtils.createMatch(35, cameroon, brazil, GameType.GROUP_GAME, TestUtils.createResult(35, 2, 4));
+        Match match36 = TestUtils.createMatch(36, croatia, mexico, GameType.GROUP_GAME, TestUtils.createResult(36, 0, 1));
         
-        List<Team> teamsInGroup = createListOfTeams(team1,team2, team3, team4);
-        List<Match> matchesInGroup = createListOfMatches(match1, match2, match16, match19, match35, match36);
+        List<Team> teamsInGroup = TestUtils.createListOfTeams(brazil,mexico, croatia, cameroon);
+        List<Match> matchesInGroup = TestUtils.createListOfMatches(match1, match2, match16, match19, match35, match36);
         
-        Group group = createGroup(1, "Group A", teamsInGroup, matchesInGroup);
+        Group group = TestUtils.createGroup(1, "Group A", teamsInGroup, matchesInGroup);
         
         GroupStandingsCalculator calc = new GroupStandingsCalculator();
         HashMap<Integer, TeamGroupResult> groupStandings = calc.calculateGroupStanding(group);
         
-        Assert.assertEquals("Antall poeng for; " + team1.getName(), 6, groupStandings.get(team1.getId()).getPoints());
-        Assert.assertEquals("Antall poeng for; " + team2.getName(), 7, groupStandings.get(team2.getId()).getPoints());
-        Assert.assertEquals("Antall poeng for; " + team3.getName(), 1, groupStandings.get(team3.getId()).getPoints());
-        Assert.assertEquals("Antall poeng for; " + team4.getName(), 2, groupStandings.get(team4.getId()).getPoints());
+        Assert.assertEquals("Antall poeng for; " + brazil.getName(), 6, groupStandings.get(brazil.getId()).getPoints());
+        Assert.assertEquals("Antall poeng for; " + mexico.getName(), 7, groupStandings.get(mexico.getId()).getPoints());
+        Assert.assertEquals("Antall poeng for; " + croatia.getName(), 1, groupStandings.get(croatia.getId()).getPoints());
+        Assert.assertEquals("Antall poeng for; " + cameroon.getName(), 2, groupStandings.get(cameroon.getId()).getPoints());
         
-        Assert.assertEquals("Antall mål for; " + team1.getName(), 6, groupStandings.get(team1.getId()).getGoalsScored());
-        Assert.assertEquals("Antall mål for; " + team2.getName(), 5, groupStandings.get(team2.getId()).getGoalsScored());
-        Assert.assertEquals("Antall mål for; " + team3.getName(), 1, groupStandings.get(team3.getId()).getGoalsScored());
-        Assert.assertEquals("Antall mål for; " + team4.getName(), 5, groupStandings.get(team4.getId()).getGoalsScored());
+        Assert.assertEquals("Antall mål for; " + brazil.getName(), 6, groupStandings.get(brazil.getId()).getGoalsScored());
+        Assert.assertEquals("Antall mål for; " + mexico.getName(), 5, groupStandings.get(mexico.getId()).getGoalsScored());
+        Assert.assertEquals("Antall mål for; " + croatia.getName(), 1, groupStandings.get(croatia.getId()).getGoalsScored());
+        Assert.assertEquals("Antall mål for; " + cameroon.getName(), 5, groupStandings.get(cameroon.getId()).getGoalsScored());
         
-        Assert.assertEquals("Antall baklengsmål for; " + team1.getName(), 4, groupStandings.get(team1.getId()).getGoalsAgaints());
-        Assert.assertEquals("Antall baklengsmål for; " + team2.getName(), 3, groupStandings.get(team2.getId()).getGoalsAgaints());
-        Assert.assertEquals("Antall baklengsmål for; " + team3.getName(), 3, groupStandings.get(team3.getId()).getGoalsAgaints());
-        Assert.assertEquals("Antall baklengsmål for; " + team4.getName(), 7, groupStandings.get(team4.getId()).getGoalsAgaints());
-    }
-    
-    private List<Match> createListOfMatches(Match... matches) {
-        List<Match> listOfMatches = new ArrayList();
-        for (Match match : matches) {
-            listOfMatches.add(match);
-        }
-        return listOfMatches;
-    }
-    
-    private List<Team> createListOfTeams(Team... teams) {
-        List<Team> listOfTeams = new ArrayList();
-        for (Team team : teams) {
-            listOfTeams.add(team);
-        }
-        return listOfTeams;
-    }
-    
-    private Result createResult(int id, int homeGoals, int awayGoals) {
-        Result result = new Result();
-        result.setId(id);
-        result.setHomeGoals(homeGoals);
-        result.setAwayGoals(awayGoals);
-        return result;
-    }
-    
-    private Group createGroup(int id, String groupName, List<Team> teamsInGroup, List<Match> matchesInGroup) {
-        Group group = new Group();
-        group.setGroupName(groupName);
-        group.setId(id);
-        group.setMatches(matchesInGroup);
-        group.setTeams(teamsInGroup);
-        return group;
-    }
-    
-    private Match createMatch(int id, Team homeTeam, Team awayTeam, GameType gameType, Result result) {
-        Match match = new Match();
-        match.setId(id);
-        match.setHomeTeam(homeTeam);
-        match.setAwayTeam(awayTeam);
-        match.setGameType(gameType);
-        match.setResult(result);
-        return match;
-    }
-    
-    private Team createTeam(int id, String name) {
-        Team team = new Team();
-        team.setId(id);
-        team.setName(name);
-        return team;
-    }
-    
+        Assert.assertEquals("Antall baklengsmål for; " + brazil.getName(), 4, groupStandings.get(brazil.getId()).getGoalsAgaints());
+        Assert.assertEquals("Antall baklengsmål for; " + mexico.getName(), 3, groupStandings.get(mexico.getId()).getGoalsAgaints());
+        Assert.assertEquals("Antall baklengsmål for; " + croatia.getName(), 3, groupStandings.get(croatia.getId()).getGoalsAgaints());
+        Assert.assertEquals("Antall baklengsmål for; " + cameroon.getName(), 7, groupStandings.get(cameroon.getId()).getGoalsAgaints());
+    }  
 }
