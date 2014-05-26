@@ -3,6 +3,7 @@ package myscores.resources;
 import myscores.Paths;
 import myscores.domain.Match;
 import myscores.services.MatchService;
+import myscores.services.ServiceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,27 +23,47 @@ public class MatchResource {
     private MatchService service;
 
     @GET
+    public Match root() {
+        Match match = new Match();
+        match.setId(1);
+        return match;
+    }
+
+    @GET
     @Path(Paths.GET)
     public Match get(@PathParam(Paths.ID) String id) {
         LOGGER.info("Get match with id {}", id);
-        return service.get(Integer.parseInt(id));
+        try {
+            return service.get(Integer.parseInt(id));
+        } catch (ServiceException e) {
+            LOGGER.error("Getting match with id " + id + " failed", e);
+            return null;
+        }
     }
 
     @GET
     @Path(Paths.FIND)
     public List<Match> find() {
         LOGGER.info("Find matches");
-        return service.find();
+        try {
+            return service.find();
+        } catch (ServiceException e) {
+            LOGGER.error("Finding matches failed", e);
+            return null;
+        }
     }
 
     @POST
     @Path(Paths.REGISTER)
     public String register(Match match) {
         LOGGER.info("Register match");
-        if (service.register(match)) {
-            return "Match " + match.getId() + " registered successfully";
-        } else {
-            return "Match " + match.getId() + " could not registered";
+        try {
+            service.register(match);
+            return "Match registered successfully";
+        } catch (ServiceException e) {
+            String error = "Registering match failed";
+            LOGGER.error(error, e);
+            return error;
         }
     }
 }

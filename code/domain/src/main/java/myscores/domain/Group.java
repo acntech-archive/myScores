@@ -3,12 +3,12 @@ package myscores.domain;
 import java.util.List;
 
 public class Group {
-    
-   private int id;
-   private String groupName;
-   
-   private List<Team> teams;
-   private List<Match> matches;
+
+    private int id;
+    private String groupName;
+
+    private List<Team> teams;
+    private List<Match> matches;
 
     public int getId() {
         return id;
@@ -41,6 +41,4 @@ public class Group {
     public void setMatches(List<Match> matches) {
         this.matches = matches;
     }
-   
-   
 }

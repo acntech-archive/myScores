@@ -3,13 +3,16 @@ package myscores.repositories;
 import myscores.database.LocalGraphDatabase;
 import myscores.database.Props;
 import myscores.domain.Match;
+import myscores.mappers.MatchMapper;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Transaction;
 import org.neo4j.graphdb.index.Index;
+import org.neo4j.graphdb.index.IndexHits;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MatchRepository extends Repository<Match> {
@@ -19,15 +22,21 @@ public class MatchRepository extends Repository<Match> {
     @Inject
     private LocalGraphDatabase database;
 
+    @Inject
+    private MatchMapper mapper;
+
     @Override
     public Match read(int id) {
         LOGGER.info("Read match for id {}", id);
-        Match match;
+        Match match = null;
         try (Transaction tx = database.startTransaction()) {
             Index<Node> index = database.getNodeIndex(Props.MATCHES_INDEX);
             Node node = index.get(Props.ID, id).getSingle();
-            match = new Match();
-            match.setId((Integer) node.getProperty(Props.ID));
+            if (node != null) {
+                match = mapper.mapNode(node);
+            } else {
+                LOGGER.warn("Read failed. No match found for id {}", id);
+            }
             tx.success();
         }
         return match;
@@ -36,7 +45,20 @@ public class MatchRepository extends Repository<Match> {
     @Override
     public List<Match> find() {
         LOGGER.info("Find matches");
-        return null;
+        List<Match> matches = new ArrayList<>();
+        try (Transaction tx = database.startTransaction()) {
+            Index<Node> index = database.getNodeIndex(Props.MATCHES_INDEX);
+            IndexHits<Node> nodes = index.query(Props.ID, Props.ALL);
+            if (nodes != null) {
+                for (Node node : nodes) {
+                    matches.add(mapper.mapNode(node));
+                }
+            } else {
+                LOGGER.warn("Find failed. No matches found");
+            }
+            tx.success();
+        }
+        return matches;
     }
 
     @Override
@@ -44,9 +66,12 @@ public class MatchRepository extends Repository<Match> {
         LOGGER.info("Create match with id {}", match.getId());
         try (Transaction tx = database.startTransaction()) {
             Index<Node> index = database.getNodeIndex(Props.MATCHES_INDEX);
-            Node node = database.createNode();
-            node.setProperty(Props.ID, match.getId());
-            index.add(node, Props.ID, match.getId());
+            if (index.get(Props.ID, match.getId()).getSingle() == null) {
+                Node node = mapper.mapNode(database.createNode(), match);
+                index.add(node, Props.ID, match.getId());
+            } else {
+                LOGGER.warn("Create failed. Match with id {} already exists", match.getId());
+            }
             tx.success();
         }
     }
@@ -62,8 +87,12 @@ public class MatchRepository extends Repository<Match> {
         try (Transaction tx = database.startTransaction()) {
             Index<Node> index = database.getNodeIndex(Props.MATCHES_INDEX);
             Node node = index.get(Props.ID, id).getSingle();
-            index.remove(node, Props.ID, node.getProperty(Props.ID));
-            node.delete();
+            if (node != null) {
+                index.remove(node, Props.ID, node.getProperty(Props.ID));
+                node.delete();
+            } else {
+                LOGGER.warn("Delete failed. No match found for id {}", id);
+            }
             tx.success();
         }
     }

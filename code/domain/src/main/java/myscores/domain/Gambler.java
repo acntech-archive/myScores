@@ -45,6 +45,4 @@ public class Gambler {
     public void setMatches(List<Match> matches) {
         this.matches = matches;
     }
-
-
 }

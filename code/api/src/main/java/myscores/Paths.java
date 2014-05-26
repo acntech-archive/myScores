@@ -6,10 +6,12 @@ public interface Paths {
     String PING = "/ping";
 
     String GET = "/get/{id}";
+    String ADD = "/add";
     String FIND = "/find";
     String REGISTER = "/register";
     String ACTIVATE = "/activate";
 
+    String PARTY = "/party";
     String GAMBLER = "/gambler";
     String MATCH = "/match";
     String TEAM = "/team";
