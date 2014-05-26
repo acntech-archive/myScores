@@ -3,16 +3,18 @@
     
     
     <select ng-model="city" ng-options="c for c in cities"></select>
-    
+    <select ng-model="search" ng-options="g.name for g in groups">
+        <option value="">Vis alle</option>
+    </select>
     
     <table>
-    <tbody ng-repeat="group in groups">
+    <tbody ng-repeat="group in groups | filter:search ">
         <tr>
-            <td>{{group.name}}</td>
-            <td>Wins</td>
-            <td>Draws</td>
-            <td>Losses</td>
-            <td>Points</td>
+            <th>{{group.name}}</th>
+            <th>Wins</th>
+            <th>Draws</th>
+            <th>Losses</th>
+            <th>Points</th>
         </tr>
         <tr ng-repeat="team in group.teams | orderBy:[calculateTotal,'-name']:true">
             <td>{{team.name}}</td>

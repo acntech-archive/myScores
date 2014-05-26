@@ -15,7 +15,7 @@ angular.module('myScores')
                 },
                 {
                     name: "Mexico",
-                    wins: 0,
+                    wins: 1,
                     losses: 0,
                     draws: 0
                 },
