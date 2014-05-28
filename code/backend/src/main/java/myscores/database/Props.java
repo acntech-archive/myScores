@@ -13,6 +13,7 @@ public interface Props {
     String ID = "id";
     String NAME = "name";
     String ACTIVE = "active";
+    String SINCE = "since";
 
     String ALL = "*";
 }

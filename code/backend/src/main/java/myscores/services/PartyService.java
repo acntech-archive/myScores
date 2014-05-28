@@ -38,24 +38,39 @@ public class PartyService extends Service<Party> {
 
     @Override
     public void register(Party party) {
-        int id = repository.getNextId();
-        LOGGER.info("Register party with id {}", id);
+        LOGGER.info("Register party {}", party.getName());
         try {
             repository.create(party);
         } catch (Exception e) {
-            throw new ServiceException("An error occurred while registering party with id " + id, e);
+            throw new ServiceException("An error occurred while registering party " + party.getName(), e);
+        }
+    }
+
+    @Override
+    public void change(Party party) {
+        LOGGER.info("Change party {} with id {}", party.getName(), party.getId());
+        try {
+            repository.update(party);
+        } catch (Exception e) {
+            throw new ServiceException("An error occurred while changing party " + party.getName() + " with id " + party.getId(), e);
         }
     }
 
     public void add(Party party) {
-        int id = party.getId();
-        LOGGER.info("Adding gamblers to party with id {}", id);
-        try {
-            for (Gambler gambler : party.getGamblers()) {
-                repository.add(id, gambler.getId());
+        LOGGER.info("Adding gamblers to party with id {}", party.getId());
+        if (party == null) {
+            throw new ServiceException("Party object is null");
+        } else if (party.getGamblers() == null) {
+            throw new ServiceException("Gambler list to be added to party is null");
+        } else {
+            try {
+                for (Gambler gambler : party.getGamblers()) {
+                    LOGGER.info("Adding gambler with id {} to party with id {}", gambler.getId(), party.getId());
+                    repository.add(party.getId(), gambler.getId());
+                }
+            } catch (Exception e) {
+                throw new ServiceException("An error occurred while adding gamblers to party with id " + party.getId(), e);
             }
-        } catch (Exception e) {
-            throw new ServiceException("An error occurred while adding gamblers to party with id " + id, e);
         }
     }
 }

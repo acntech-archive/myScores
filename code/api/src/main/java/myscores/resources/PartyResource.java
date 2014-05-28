@@ -1,6 +1,7 @@
 package myscores.resources;
 
 import myscores.Paths;
+import myscores.constants.ContentType;
 import myscores.domain.Gambler;
 import myscores.domain.Party;
 import myscores.services.PartyService;
@@ -11,12 +12,15 @@ import org.slf4j.LoggerFactory;
 import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import java.util.ArrayList;
 import java.util.List;
 
 @Path(Paths.PARTY)
+@Produces(ContentType.APPLICATION_JSON_UTF_8)
 public class PartyResource {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PartyResource.class);
@@ -41,12 +45,15 @@ public class PartyResource {
     @Path(Paths.GET)
     public Party get(@PathParam(Paths.ID) String id) {
         LOGGER.info("Get party with id {}", id);
+        Party party = null;
         try {
-            return service.get(Integer.parseInt(id));
+            party = service.get(Integer.parseInt(id));
+        } catch (NumberFormatException e) {
+            LOGGER.error("Gambler id must be numeric");
         } catch (ServiceException e) {
             LOGGER.error("Getting party with id " + id + " failed", e);
-            return null;
         }
+        return party;
     }
 
     @GET
@@ -75,7 +82,21 @@ public class PartyResource {
         }
     }
 
-    @POST
+    @PUT
+    @Path(Paths.CHANGE)
+    public String change(Party party) {
+        LOGGER.info("Change party");
+        try {
+            service.change(party);
+            return "Party " + party.getName() + " changed successfully";
+        } catch (ServiceException e) {
+            String error = "Changing party " + party.getName() + " failed";
+            LOGGER.error(error, e);
+            return error;
+        }
+    }
+
+    @PUT
     @Path(Paths.ADD)
     public String add(Party party) {
         LOGGER.info("Adding to party with id {}", party.getId());

@@ -4,8 +4,9 @@ import myscores.database.LocalGraphDatabase;
 import myscores.database.Props;
 import myscores.domain.Party;
 import myscores.mappers.PartyMapper;
-import myscores.relationships.Basic;
+import myscores.relationships.ForGambler;
 import org.neo4j.graphdb.Node;
+import org.neo4j.graphdb.Relationship;
 import org.neo4j.graphdb.Transaction;
 import org.neo4j.graphdb.index.Index;
 import org.slf4j.Logger;
@@ -22,44 +23,49 @@ public class PartyRepository extends Repository<Party> {
     private LocalGraphDatabase database;
 
     @Inject
-    private PartyMapper partyMapper;
+    private PartyMapper mapper;
 
     @Override
     public Party read(int id) {
         LOGGER.info("Read party for id {}", id);
-        Party party;
         try (Transaction tx = database.startTransaction()) {
             Index<Node> index = database.getNodeIndex(Props.PARTIES_INDEX);
-            party = partyMapper.mapNode(index, id);
+            Party party = mapper.map(index, id);
             if (party != null) {
-                LOGGER.info("Read success for id {}", id);
+                tx.success();
+                return party;
             } else {
-                LOGGER.warn("Read failed. No party found for id {}", id);
+                tx.failure();
+                throw new RepositoryException("No party found for id " + id);
             }
-            tx.success();
+        } catch (RepositoryException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new RepositoryException("Read failed", e);
         }
-        return party;
     }
 
     @Override
     public List<Party> find() {
         LOGGER.info("Find parties");
-        List<Party> parties;
         try (Transaction tx = database.startTransaction()) {
             Index<Node> index = database.getNodeIndex(Props.PARTIES_INDEX);
-            parties = partyMapper.mapAllNodes(index);
+            List<Party> parties = mapper.mapAll(index);
             tx.success();
+            return parties;
+        } catch (Exception e) {
+            throw new RepositoryException("Find failed", e);
         }
-        return parties;
     }
 
     @Override
     public void create(Party party) {
+        party.setId(nextId());
         LOGGER.info("Create team with id {}", party.getId());
         try (Transaction tx = database.startTransaction()) {
             Index<Node> index = database.getNodeIndex(Props.PARTIES_INDEX);
-            if (index.get(Props.ID, party.getId()).getSingle() == null) {
-                Node node = partyMapper.mapNode(database.createNode(), party);
+            if (!mapper.exists(index, party.getId())) {
+                Node node = mapper.map(database.createNode(), party);
                 index.add(node, Props.ID, party.getId());
             } else {
                 LOGGER.warn("Create failed. Party with id {} already exists", party.getId());
@@ -108,7 +114,8 @@ public class PartyRepository extends Repository<Party> {
                 Index<Node> gamblerIndex = database.getNodeIndex(Props.GAMBLERS_INDEX);
                 Node gamblerNode = gamblerIndex.get(Props.ID, gamblerId).getSingle();
                 if (gamblerNode != null) {
-                    gamblerNode.createRelationshipTo(partyNode, Basic.BELONGS_TO);
+                    Relationship belongsTo = gamblerNode.createRelationshipTo(partyNode, ForGambler.BELONGS_TO);
+                    belongsTo.setProperty(Props.SINCE, getCurrentTime());
                 } else {
                     LOGGER.warn("Add failed. No gambler found for id {}", partyId);
                 }
@@ -116,6 +123,18 @@ public class PartyRepository extends Repository<Party> {
                 LOGGER.warn("Add failed. No party found for id {}", partyId);
             }
             tx.success();
+        }
+    }
+
+    @Override
+    protected int nextId() {
+        try (Transaction tx = database.startTransaction()) {
+            Index<Node> index = database.getNodeIndex(Props.PARTIES_INDEX);
+            int id = index.query(Props.ID, Props.ALL).size() + 1;
+            tx.success();
+            return id;
+        } catch (Exception e) {
+            throw new RepositoryException("Getting next index failed", e);
         }
     }
 }

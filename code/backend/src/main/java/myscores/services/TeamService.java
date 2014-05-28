@@ -37,12 +37,21 @@ public class TeamService extends Service<Team> {
 
     @Override
     public void register(Team team) {
-        int id = repository.getNextId();
-        LOGGER.info("Register team with id {}", id);
+        LOGGER.info("Register team {}", team.getName());
         try {
             repository.create(team);
         } catch (Exception e) {
-            throw new ServiceException("An error occurred while registering team with id " + id, e);
+            throw new ServiceException("An error occurred while registering team " + team.getName(), e);
+        }
+    }
+
+    @Override
+    public void change(Team team) {
+        LOGGER.info("Change team {} with id {}", team.getName(), team.getId());
+        try {
+            repository.update(team);
+        } catch (Exception e) {
+            throw new ServiceException("An error occurred while changing team " + team.getName() + " with id " + team.getId(), e);
         }
     }
 }

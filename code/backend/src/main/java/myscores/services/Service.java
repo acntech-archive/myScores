@@ -9,4 +9,6 @@ public abstract class Service<T> {
     public abstract List<T> find();
 
     public abstract void register(T data);
+
+    public abstract void change(T data);
 }

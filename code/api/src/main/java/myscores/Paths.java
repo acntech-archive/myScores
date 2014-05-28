@@ -9,6 +9,7 @@ public interface Paths {
     String ADD = "/add";
     String FIND = "/find";
     String REGISTER = "/register";
+    String CHANGE = "/change";
     String ACTIVATE = "/activate";
 
     String PARTY = "/party";

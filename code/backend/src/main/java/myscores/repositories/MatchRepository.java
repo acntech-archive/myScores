@@ -7,12 +7,10 @@ import myscores.mappers.MatchMapper;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Transaction;
 import org.neo4j.graphdb.index.Index;
-import org.neo4j.graphdb.index.IndexHits;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
-import java.util.ArrayList;
 import java.util.List;
 
 public class MatchRepository extends Repository<Match> {
@@ -28,51 +26,54 @@ public class MatchRepository extends Repository<Match> {
     @Override
     public Match read(int id) {
         LOGGER.info("Read match for id {}", id);
-        Match match = null;
         try (Transaction tx = database.startTransaction()) {
             Index<Node> index = database.getNodeIndex(Props.MATCHES_INDEX);
-            Node node = index.get(Props.ID, id).getSingle();
-            if (node != null) {
-                match = mapper.mapNode(node);
+            Match match = mapper.map(index, id);
+            if (match != null) {
+                tx.success();
+                return match;
             } else {
-                LOGGER.warn("Read failed. No match found for id {}", id);
+                tx.failure();
+                throw new RepositoryException("No match found for id " + id);
             }
-            tx.success();
+        } catch (RepositoryException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new RepositoryException("Read failed", e);
         }
-        return match;
     }
 
     @Override
     public List<Match> find() {
         LOGGER.info("Find matches");
-        List<Match> matches = new ArrayList<>();
         try (Transaction tx = database.startTransaction()) {
             Index<Node> index = database.getNodeIndex(Props.MATCHES_INDEX);
-            IndexHits<Node> nodes = index.query(Props.ID, Props.ALL);
-            if (nodes != null) {
-                for (Node node : nodes) {
-                    matches.add(mapper.mapNode(node));
-                }
-            } else {
-                LOGGER.warn("Find failed. No matches found");
-            }
+            List<Match> matches = mapper.mapAll(index);
             tx.success();
+            return matches;
+        } catch (Exception e) {
+            throw new RepositoryException("Find failed", e);
         }
-        return matches;
     }
 
     @Override
     public void create(Match match) {
+        match.setId(nextId());
         LOGGER.info("Create match with id {}", match.getId());
         try (Transaction tx = database.startTransaction()) {
             Index<Node> index = database.getNodeIndex(Props.MATCHES_INDEX);
-            if (index.get(Props.ID, match.getId()).getSingle() == null) {
-                Node node = mapper.mapNode(database.createNode(), match);
+            if (!mapper.exists(index, match.getId())) {
+                Node node = mapper.map(database.createNode(), match);
                 index.add(node, Props.ID, match.getId());
+                tx.success();
             } else {
-                LOGGER.warn("Create failed. Match with id {} already exists", match.getId());
+                tx.failure();
+                throw new RepositoryException("Match with id " + match.getId() + " already exists");
             }
-            tx.success();
+        } catch (RepositoryException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new RepositoryException("Create failed", e);
         }
     }
 
@@ -90,10 +91,27 @@ public class MatchRepository extends Repository<Match> {
             if (node != null) {
                 index.remove(node, Props.ID, node.getProperty(Props.ID));
                 node.delete();
+                tx.success();
             } else {
-                LOGGER.warn("Delete failed. No match found for id {}", id);
+                tx.failure();
+                throw new RepositoryException("No match found for id " + id);
             }
+        } catch (RepositoryException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new RepositoryException("Delete failed", e);
+        }
+    }
+
+    @Override
+    protected int nextId() {
+        try (Transaction tx = database.startTransaction()) {
+            Index<Node> index = database.getNodeIndex(Props.MATCHES_INDEX);
+            int id = index.query(Props.ID, Props.ALL).size() + 1;
             tx.success();
+            return id;
+        } catch (Exception e) {
+            throw new RepositoryException("Getting next index failed", e);
         }
     }
 }

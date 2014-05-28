@@ -1,6 +1,7 @@
 package myscores.resources;
 
 import myscores.Paths;
+import myscores.constants.ContentType;
 import myscores.domain.Match;
 import myscores.services.MatchService;
 import myscores.services.ServiceException;
@@ -12,9 +13,11 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import java.util.List;
 
 @Path(Paths.MATCH)
+@Produces(ContentType.APPLICATION_JSON_UTF_8)
 public class MatchResource {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MatchResource.class);
@@ -33,12 +36,15 @@ public class MatchResource {
     @Path(Paths.GET)
     public Match get(@PathParam(Paths.ID) String id) {
         LOGGER.info("Get match with id {}", id);
+        Match match = null;
         try {
-            return service.get(Integer.parseInt(id));
+            match = service.get(Integer.parseInt(id));
+        } catch (NumberFormatException e) {
+            LOGGER.error("Gambler id must be numeric");
         } catch (ServiceException e) {
             LOGGER.error("Getting match with id " + id + " failed", e);
-            return null;
         }
+        return match;
     }
 
     @GET

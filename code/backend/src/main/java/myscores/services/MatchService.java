@@ -37,12 +37,22 @@ public class MatchService extends Service<Match> {
 
     @Override
     public void register(Match match) {
-        int id = repository.getNextId();
-        LOGGER.info("Register match with id {}", id);
+        LOGGER.info("Register match");
         try {
             repository.create(match);
         } catch (Exception e) {
-            throw new ServiceException("An error occurred while registering match with id " + id, e);
+            throw new ServiceException("An error occurred while registering match", e);
+        }
+    }
+
+    @Override
+    public void change(Match match) {
+        int id = match.getId();
+        LOGGER.info("Change match with id {}", id);
+        try {
+            repository.update(match);
+        } catch (Exception e) {
+            throw new ServiceException("An error occurred while changing match with id " + id, e);
         }
     }
 }
