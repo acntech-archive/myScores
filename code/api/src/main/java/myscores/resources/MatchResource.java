@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
+import javax.validation.Valid;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -61,7 +62,7 @@ public class MatchResource {
 
     @POST
     @Path(Paths.REGISTER)
-    public String register(Match match) {
+    public String register(@Valid Match match) {
         LOGGER.info("Register match");
         try {
             service.register(match);

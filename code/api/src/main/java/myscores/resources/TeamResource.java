@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
+import javax.validation.Valid;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -63,7 +64,7 @@ public class TeamResource {
 
     @POST
     @Path(Paths.REGISTER)
-    public String register(Team team) {
+    public String register(@Valid Team team) {
         LOGGER.info("Register team");
         try {
             service.register(team);
@@ -77,7 +78,7 @@ public class TeamResource {
 
     @PUT
     @Path(Paths.CHANGE)
-    public String change(Team team) {
+    public String change(@Valid Team team) {
         LOGGER.info("Change team");
         try {
             service.change(team);

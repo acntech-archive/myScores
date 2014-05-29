@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
+import javax.validation.Valid;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -70,7 +71,7 @@ public class PartyResource {
 
     @POST
     @Path(Paths.REGISTER)
-    public String register(Party party) {
+    public String register(@Valid Party party) {
         LOGGER.info("Register party");
         try {
             service.register(party);
@@ -84,7 +85,7 @@ public class PartyResource {
 
     @PUT
     @Path(Paths.CHANGE)
-    public String change(Party party) {
+    public String change(@Valid Party party) {
         LOGGER.info("Change party");
         try {
             service.change(party);

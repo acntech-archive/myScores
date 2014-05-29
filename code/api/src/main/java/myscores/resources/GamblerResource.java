@@ -9,6 +9,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
+import javax.validation.Valid;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -64,7 +68,7 @@ public class GamblerResource {
 
     @POST
     @Path(Paths.REGISTER)
-    public String register(Gambler gambler) {
+    public String register(@Valid Gambler gambler) {
         LOGGER.info("Register gambler {}", gambler.getName());
         try {
             service.register(gambler);
@@ -78,7 +82,7 @@ public class GamblerResource {
 
     @PUT
     @Path(Paths.CHANGE)
-    public String change(Gambler gambler) {
+    public String change(@Valid Gambler gambler) {
         LOGGER.info("Change gambler {}", gambler.getName());
         try {
             service.change(gambler);
@@ -92,7 +96,7 @@ public class GamblerResource {
 
     @PUT
     @Path(Paths.ACTIVATE)
-    public String activate(String id) {
+    public String activate(@NotNull @Min(1) @Pattern(regexp = "\\d+", message = "Not a number") String id) {
         LOGGER.info("Activate gambler with id {}", id);
         try {
             service.activate(Integer.parseInt(id));

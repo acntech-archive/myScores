@@ -5,6 +5,7 @@ import myscores.domain.Gambler;
 import myscores.domain.Party;
 import myscores.relationships.ForGambler;
 import org.neo4j.graphdb.Direction;
+import org.neo4j.graphdb.Label;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Relationship;
 import org.neo4j.graphdb.index.Index;
@@ -52,17 +53,24 @@ public class PartyMapper extends NodeMapper<Party> {
         if (party != null) {
             List<Gambler> gamblers = new ArrayList<>();
             Iterable<Relationship> belongsTo = partyNode.getRelationships(ForGambler.BELONGS_TO, Direction.INCOMING);
-            LOGGER.debug("Iterable is {}", belongsTo.getClass().getName());
             for (Relationship rel : belongsTo) {
                 Node[] gamblerNodes = rel.getNodes();
-                LOGGER.debug("{} gamblers found for party with id {}", gamblerNodes.length, party.getId());
+                LOGGER.debug("{} nodes found for party with id {}", gamblerNodes.length, party.getId());
                 for (Node gamblerNode : gamblerNodes) {
                     Iterable<String> keys = gamblerNode.getPropertyKeys();
-                    LOGGER.debug("Gambler has keys {}", keys.toString());
-                    Gambler gambler = gamblerMapper.map(gamblerNode);
-                    if (gambler != null) {
-                        LOGGER.debug("Adding gambler with id {} to party with id {}", gambler.getId(), party.getId());
-                        gamblers.add(gambler);
+                    Iterable<Label> labels = gamblerNode.getLabels();
+                    LOGGER.debug("Node with labels {} has keys {}", labels.toString(), keys.toString());
+                    if (hasLabel(gamblerNode, gamblerMapper.createLabel(Gambler.class))) {
+                        LOGGER.debug("Node has correct label");
+                        Gambler gambler = gamblerMapper.map(gamblerNode);
+                        if (gambler != null) {
+                            LOGGER.debug("Adding gambler with id {} to party with id {}", gambler.getId(), party.getId());
+                            gamblers.add(gambler);
+                        } else {
+                            LOGGER.debug("No gambler mapped");
+                        }
+                    } else {
+                        LOGGER.debug("Node does not have correct label");
                     }
                 }
             }

@@ -1,11 +1,17 @@
 package myscores.domain;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 public class Gambler {
 
     private int id;
 
+    @NotNull
+    @Min(4)
+    @Max(50)
     private String name;
 
     private boolean active;
