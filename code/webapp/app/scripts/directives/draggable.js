@@ -6,6 +6,7 @@ angular.module('myScores')
             restrict: 'A',
             link: function(scope, element, attrs) {
 //                element.text('this is the draggable directive');
+                console.log(attrs);
                 var el = element[0];
                 el.draggable = true;
 
@@ -21,6 +22,7 @@ angular.module('myScores')
 
                 el.addEventListener('dragend',
                     function(e) {
+                        console.log(e.type);
                         this.classList.remove('drag');
                         return false;
                     },

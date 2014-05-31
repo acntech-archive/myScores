@@ -1,34 +1,35 @@
 'use strict';
 
 angular.module('myScores')
-  .service('Groupservice', function Groupservice() {
+    .service('Groupservice', function Groupservice() {
 
     var groups = [
-        { 
-            name : "A",
+        {
+            name : 'A',
             teams : [
-                { name: "Brazil",
+                {
+                    name: 'Brazil',
                     wins: 1,
                     losses: 1,
                     draws: 1,
                     flag: 'bra.png'
                 },
                 {
-                    name: "Mexico",
+                    name: 'Mexico',
                     wins: 1,
                     losses: 0,
                     draws: 0,
                     flag: 'mex.png'
                 },
                 {
-                    name: "Croatia",
+                    name: 'Croatia',
                     wins: 0,
                     losses: 0,
                     draws: 0,
                     flag: 'cro.png'
                 },
                 {
-                    name: "Cameroon",
+                    name: 'Cameroon',
                     wins: 2,
                     losses: 0,
                     draws: 0,
@@ -37,31 +38,31 @@ angular.module('myScores')
             ]
         },
         {
-            name : "B",
+            name : 'B',
             teams: [
                 {
-                    name: "Spain",
+                    name: 'Spain',
                     wins: 0,
                     losses: 0,
                     draws: 0,
                     flag: 'esp.png'
                 },
                 {
-                    name: "Chile",
+                    name: 'Chile',
                     wins: 0,
                     losses: 0,
                     draws: 0,
                     flag: 'chi.png'
                 },
                 {
-                    name: "Netherlands",
+                    name: 'Netherlands',
                     wins: 0,
                     losses: 0,
                     draws: 0,
                     flag: 'ned.png'
                 },
                 {
-                    name: "Australia",
+                    name: 'Australia',
                     wins: 0,
                     losses: 0,
                     draws: 0,
@@ -70,31 +71,31 @@ angular.module('myScores')
             ]
         },
         {
-            name: "C",
+            name: 'C',
             teams: [
                 {
-                    name: "Colombia",
+                    name: 'Colombia',
                     wins: 0,
                     losses: 0,
                     draws: 0,
                     flag: 'col.png'
                 },
                 {
-                    name: "Greece",
+                    name: 'Greece',
                     wins: 0,
                     losses: 0,
                     draws: 0,
                     flag: 'gre.png'
                 },
                 {
-                    name: "Côte d'Ivoire",
+                    name: 'Côte d\'Ivoire',
                     wins: 0,
                     losses: 0,
                     draws: 0,
                     flag: 'civ.png'
                 },
-                { 
-                    name: "Japan",
+                {
+                    name: 'Japan',
                     wins: 0,
                     losses: 0,
                     draws: 0,
@@ -103,31 +104,31 @@ angular.module('myScores')
             ]
         },
         {
-            name: "D",
+            name: 'D',
             teams: [
                 {
-                    name: "Uruguay",
+                    name: 'Uruguay',
                     wins: 0,
                     losses: 0,
                     draws: 0,
                     flag: 'uru.png'
                 },
                 {
-                    name: "Italy",
+                    name: 'Italy',
                     wins: 0,
                     losses: 0,
                     draws: 0,
                     flag: 'ita.png'
                 },
                 {
-                    name: "England",
+                    name: 'England',
                     wins: 0,
                     losses: 0,
                     draws: 0,
                     flag: 'eng.png'
                 },
                 {
-                    name: "Costa Rica",
+                    name: 'Costa Rica',
                     wins: 0,
                     losses: 0,
                     draws: 0,
@@ -136,31 +137,31 @@ angular.module('myScores')
             ]
         },
         {
-            name : "E", 
+            name : 'E',
             teams: [
                 {
-                    name: "Switzerland",
+                    name: 'Switzerland',
                     wins: 0,
                     losses: 0,
                     draws: 0,
                     flag: 'sui.png'
                 },
                 {
-                    name: "France",
+                    name: 'France',
                     wins: 0,
                     losses: 0,
                     draws: 0,
                     flag: 'fra.png'
                 },
                 {
-                    name: "Ecuador",
+                    name: 'Ecuador',
                     wins: 0,
                     losses: 0,
                     draws: 0,
                     flag: 'ecu.png'
                 },
                 {
-                    name: "Honduras",
+                    name: 'Honduras',
                     wins: 0,
                     losses: 0,
                     draws: 0,
@@ -169,64 +170,64 @@ angular.module('myScores')
             ]
         },
         {
-            name: "F",
+            name: 'F',
             teams: [
                 {
-                    name: "Argentina",
+                    name: 'Argentina',
                     wins: 0,
                     losses: 0,
                     draws: 0,
                     flag: 'arg.png'
                 },
                 {
-                    name: "Bosnia-Herzegovina",
+                    name: 'Bosnia-Herzegovina',
                     wins: 0,
                     losses: 0,
                     draws: 0,
                     flag: 'bih.png'
                 },
                 {
-                    name: "Iran",
+                    name: 'Iran',
                     wins: 0,
                     losses: 0,
                     draws: 0,
                     flag: 'irn.png'
                 },
                 {
-                    name: "Nigeria",
+                    name: 'Nigeria',
                     wins: 0,
                     losses: 0,
                     draws: 0,
                     flag: 'nga.png'
                 }
-            ]    
+            ]
         },
         {
-            name: "G",
+            name: 'G',
             teams: [
                 {
-                    name: "Germany",
+                    name: 'Germany',
                     wins: 0,
                     losses: 0,
                     draws: 0,
                     flag: 'ger.png'
                 },
                 {
-                    name: "Portugal",
+                    name: 'Portugal',
                     wins: 0,
                     losses: 0,
                     draws: 0,
                     flag: 'por.png'
                 },
                 {
-                    name: "USA",
+                    name: 'USA',
                     wins: 0,
                     losses: 0,
                     draws: 0,
                     flag: 'usa.png'
                 },
                 {
-                    name: "Ghana",
+                    name: 'Ghana',
                     wins: 0,
                     losses: 0,
                     draws: 0,
@@ -235,31 +236,31 @@ angular.module('myScores')
             ]
         },
         {
-            name: "H",
+            name: 'H',
             teams: [
                 {
-                    name: "Belgium",
+                    name: 'Belgium',
                     wins: 0,
                     losses: 0,
                     draws: 0,
                     flag: 'bel.png'
                 },
                 {
-                    name: "Russia",
+                    name: 'Russia',
                     wins: 0,
                     losses: 0,
                     draws: 0,
                     flag: 'rus.png'
                 },
                 {
-                    name: "Algeria",
+                    name: 'Algeria',
                     wins: 0,
                     losses: 0,
                     draws: 0,
                     flag: 'alg.png'
                 },
                 {
-                    name: "Korea Republic",
+                    name: 'Korea Republic',
                     wins: 0,
                     losses: 0,
                     draws: 0,
@@ -269,7 +270,7 @@ angular.module('myScores')
         }
     ];
      
-     this.getGroups = function() {
+    this.getGroups = function() {
         return groups;
-     };
-  });
+    };
+});

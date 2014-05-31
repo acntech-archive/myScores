@@ -16,8 +16,9 @@ angular.module('myScores')
                     function(e) {
                         e.dataTransfer.dropEffect = 'move';
                         // allows us to drop
-                        if (e.preventDefault)
+                        if (e.preventDefault) {
                             e.preventDefault();
+                        }
                         this.classList.add('over');
                         return false;
                     },
@@ -27,6 +28,7 @@ angular.module('myScores')
             el.addEventListener(
                     'dragenter',
                     function(e) {
+                        console.log(e.type);
                         this.classList.add('over');
                         return false;
                     },
@@ -36,18 +38,20 @@ angular.module('myScores')
             el.addEventListener(
                     'dragleave',
                     function(e) {
+                        console.log(e.type);
                         this.classList.remove('over');
                         return false;
                     },
                     false
                     );
-
+            
             el.addEventListener(
                     'drop',
                     function(e) {
                         // Stops some browsers from redirecting.
-                        if (e.stopPropagation)
+                        if (e.stopPropagation) {
                             e.stopPropagation();
+                        }
 
                         this.classList.remove('over');
 
@@ -67,5 +71,5 @@ angular.module('myScores')
                     false
                     );
         }
-    }
+    };
 });
