@@ -3,8 +3,8 @@
 angular.module('myScores')
   .controller('TeamregistrationCtrl', function ($scope) {
     $scope.awesomeThings = [
-      'HTML5 Boilerplate',
-      'AngularJS',
-      'Karma'
+        'HTML5 Boilerplate',
+        'AngularJS',
+        'Karma'
     ];
-  });
+});

@@ -1,21 +1,29 @@
-<div >
+<div class="col-md-6">
     
     
     
     <select ng-model="city" ng-options="c for c in cities"></select>
-    
+    <select ng-model="search" ng-options="g.name for g in groups">
+        <option value="">Vis alle</option>
+    </select>
     
     <table>
-    <tbody ng-repeat="group in groups">
+    <tbody ng-repeat="group in groups | filter:search ">
         <tr>
-            <td>{{group.name}}</td>
-            <td>Wins</td>
-            <td>Draws</td>
-            <td>Losses</td>
-            <td>Points</td>
+            <th>{{group.name}}</th>
+            <th>Team</th>
+            <th>Wins</th>
+            <th>Draws</th>
+            <th>Losses</th>
+            <th>Points</th>
         </tr>
         <tr ng-repeat="team in group.teams | orderBy:[calculateTotal,'-name']:true">
-            <td>{{team.name}}</td>
+            <td></td>
+            <td>
+                <div draggable><img alt="{{team.name}}" src="images/{{team.flag}}">
+                    {{team.name}}
+                </div>
+            </td>
             <td>{{team.wins}}</td>
             <td>{{team.draws}}</td>
             <td>{{team.losses}}</td>
@@ -24,6 +32,14 @@
     </tbody>
 </table>
 </div>
+<div class="col-md-6">
+    <div id="lag1" droppable class="bin">
+        
+    </div>
+    <div id="lag2" class="bin">
+        
+    </div>
+    
 <p>Drag and drop fra teamliste
     Sette opp treet i henhold til skjema
     Vise gruppene
@@ -31,3 +47,4 @@
     Regler for hvem videre? Gitt i 2014
     Tidspunkt
     Sted </p>
+</div>

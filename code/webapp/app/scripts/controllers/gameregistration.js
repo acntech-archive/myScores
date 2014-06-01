@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('myScores')
-  .controller('GameregistrationCtrl', ['$scope', 'Hostcityservice', 'Groupservice', function ($scope, Hostcityservice, Groupservice) {
+    .controller('GameregistrationCtrl', ['$scope', 'Hostcityservice', 'Groupservice', function ($scope, Hostcityservice, Groupservice) {
         
         $scope.cities = Hostcityservice.getHostCities();
         $scope.city = $scope.cities[0];
@@ -14,4 +14,4 @@ angular.module('myScores')
             return team.wins * 3 + team.draws;
         };
         
-  }]);
+    }]);

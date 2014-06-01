@@ -77,3 +77,25 @@ body {
     border-bottom: 0;
   }
 }
+.bin {
+  /*@extend %content;*/
+  min-height: 80px;
+  min-width: 80px;
+  float: left;
+  border: 1px solid red;
+  padding: 20px;
+}
+.item {
+  /*@extend %content;*/
+  min-height: 150px;
+  min-width: 150px;
+  background: blue;
+  float: right;
+  transition: all 0.2s ease;
+}
+.drag {
+  opacity: 0.5;
+}
+.over {
+  background: red;
+}
