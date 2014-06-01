@@ -26,4 +26,16 @@ public abstract class Mapper<T, S extends PropertyContainer> {
     public Label createLabel(Class<T> clazz) {
         return DynamicLabel.label(clazz.getSimpleName().toUpperCase());
     }
+
+    public int getIntProperty(S item, String key) {
+        return (Integer) item.getProperty(key);
+    }
+
+    public String getStringProperty(S item, String key) {
+        return (String) item.getProperty(key);
+    }
+
+    public boolean getBooleanProperty(S item, String key) {
+        return (Boolean) item.getProperty(key);
+    }
 }

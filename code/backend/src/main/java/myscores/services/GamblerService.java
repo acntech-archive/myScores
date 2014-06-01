@@ -58,6 +58,16 @@ public class GamblerService extends Service<Gambler> {
         }
     }
 
+    @Override
+    public void delete(int id) {
+        LOGGER.info("Delete gambler with id {}", id);
+        try {
+            repository.delete(id);
+        } catch (Exception e) {
+            throw new ServiceException("An error occurred while deleting gambler with id " + id, e);
+        }
+    }
+
     public void activate(int id) {
         Gambler gambler;
         try {

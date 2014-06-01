@@ -56,6 +56,16 @@ public class PartyService extends Service<Party> {
         }
     }
 
+    @Override
+    public void delete(int id) {
+        LOGGER.info("Delete party with id {}", id);
+        try {
+            repository.delete(id);
+        } catch (Exception e) {
+            throw new ServiceException("An error occurred while deleting party with id " + id, e);
+        }
+    }
+
     public void add(Party party) {
         LOGGER.info("Adding gamblers to party with id {}", party.getId());
         if (party == null) {
@@ -70,6 +80,24 @@ public class PartyService extends Service<Party> {
                 }
             } catch (Exception e) {
                 throw new ServiceException("An error occurred while adding gamblers to party with id " + party.getId(), e);
+            }
+        }
+    }
+
+    public void remove(Party party) {
+        LOGGER.info("Removing gamblers from party with id {}", party.getId());
+        if (party == null) {
+            throw new ServiceException("Party object is null");
+        } else if (party.getGamblers() == null) {
+            throw new ServiceException("Gambler list to be added to party is null");
+        } else {
+            try {
+                for (Gambler gambler : party.getGamblers()) {
+                    LOGGER.info("Removing gambler with id {} from party with id {}", gambler.getId(), party.getId());
+                    repository.remove(party.getId(), gambler.getId());
+                }
+            } catch (Exception e) {
+                throw new ServiceException("An error occurred while removing gamblers from party with id " + party.getId(), e);
             }
         }
     }

@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -32,6 +33,7 @@ public class TeamResource {
         Team team = new Team();
         team.setId(1);
         team.setName("Demo Team");
+        team.setFifaRanking(10);
         return team;
     }
 
@@ -85,6 +87,22 @@ public class TeamResource {
             return "Team " + team.getName() + " changed successfully";
         } catch (ServiceException e) {
             String error = "Changing team " + team.getName() + " failed";
+            LOGGER.error(error, e);
+            return error;
+        }
+    }
+
+    @DELETE
+    @Path(Paths.DELETE)
+    public String delete(String id) {
+        LOGGER.info("Deleting team with id {}", id);
+        try {
+            service.delete(Integer.parseInt(id));
+            return "Team with id " + id + " deleted successfully";
+        } catch (NumberFormatException e) {
+            return "Team id must be numeric";
+        } catch (ServiceException e) {
+            String error = "Deletion of team with id " + id + " failed";
             LOGGER.error(error, e);
             return error;
         }

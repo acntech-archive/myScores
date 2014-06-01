@@ -54,4 +54,14 @@ public class TeamService extends Service<Team> {
             throw new ServiceException("An error occurred while changing team " + team.getName() + " with id " + team.getId(), e);
         }
     }
+
+    @Override
+    public void delete(int id) {
+        LOGGER.info("Delete team with id {}", id);
+        try {
+            repository.delete(id);
+        } catch (Exception e) {
+            throw new ServiceException("An error occurred while deleting team with id " + id, e);
+        }
+    }
 }

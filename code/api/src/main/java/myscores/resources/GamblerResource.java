@@ -13,6 +13,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -89,6 +90,22 @@ public class GamblerResource {
             return "Gambler " + gambler.getName() + " changed successfully";
         } catch (ServiceException e) {
             String error = "Changing gambler " + gambler.getName() + " failed";
+            LOGGER.error(error, e);
+            return error;
+        }
+    }
+
+    @DELETE
+    @Path(Paths.DELETE)
+    public String delete(String id) {
+        LOGGER.info("Deleting gambler with id {}", id);
+        try {
+            service.delete(Integer.parseInt(id));
+            return "Gambler with id " + id + " deleted successfully";
+        } catch (NumberFormatException e) {
+            return "Gambler id must be numeric";
+        } catch (ServiceException e) {
+            String error = "Deletion of gambler with id " + id + " failed";
             LOGGER.error(error, e);
             return error;
         }

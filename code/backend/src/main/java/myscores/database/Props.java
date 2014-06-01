@@ -14,6 +14,7 @@ public interface Props {
     String NAME = "name";
     String ACTIVE = "active";
     String SINCE = "since";
+    String RANK = "rank";
 
     String ALL = "*";
 }

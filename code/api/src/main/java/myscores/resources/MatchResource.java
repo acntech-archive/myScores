@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -69,6 +70,22 @@ public class MatchResource {
             return "Match registered successfully";
         } catch (ServiceException e) {
             String error = "Registering match failed";
+            LOGGER.error(error, e);
+            return error;
+        }
+    }
+
+    @DELETE
+    @Path(Paths.DELETE)
+    public String delete(String id) {
+        LOGGER.info("Deleting match with id {}", id);
+        try {
+            service.delete(Integer.parseInt(id));
+            return "Match with id " + id + " deleted successfully";
+        } catch (NumberFormatException e) {
+            return "Match id must be numeric";
+        } catch (ServiceException e) {
+            String error = "Deletion of match with id " + id + " failed";
             LOGGER.error(error, e);
             return error;
         }

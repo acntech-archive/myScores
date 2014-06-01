@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -97,6 +98,22 @@ public class PartyResource {
         }
     }
 
+    @DELETE
+    @Path(Paths.DELETE)
+    public String delete(String id) {
+        LOGGER.info("Deleting party with id {}", id);
+        try {
+            service.delete(Integer.parseInt(id));
+            return "Party with id " + id + " deleted successfully";
+        } catch (NumberFormatException e) {
+            return "Party id must be numeric";
+        } catch (ServiceException e) {
+            String error = "Deletion of party with id " + id + " failed";
+            LOGGER.error(error, e);
+            return error;
+        }
+    }
+
     @PUT
     @Path(Paths.ADD)
     public String add(Party party) {
@@ -104,6 +121,20 @@ public class PartyResource {
         try {
             service.add(party);
             return "Added gamblers to party " + party.getName() + " successfully";
+        } catch (ServiceException e) {
+            String error = "Adding gamblers to party " + party.getName() + " failed";
+            LOGGER.error(error, e);
+            return error;
+        }
+    }
+
+    @DELETE
+    @Path(Paths.REMOVE)
+    public String remove(Party party) {
+        LOGGER.info("Removing from party with id {}", party.getId());
+        try {
+            service.remove(party);
+            return "Removed gamblers to party " + party.getName() + " successfully";
         } catch (ServiceException e) {
             String error = "Adding gamblers to party " + party.getName() + " failed";
             LOGGER.error(error, e);

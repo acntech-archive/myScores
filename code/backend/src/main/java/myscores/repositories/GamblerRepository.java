@@ -83,7 +83,7 @@ public class GamblerRepository extends Repository<Gambler> {
         LOGGER.info("Update gambler with id {}", gambler.getId());
         try (Transaction tx = database.startTransaction()) {
             Index<Node> index = database.getNodeIndex(Props.GAMBLERS_INDEX);
-            Node node = index.get(Props.ID, gambler.getId()).getSingle();
+            Node node = mapper.getNodeById(index, gambler.getId());
             if (node != null) {
                 node.setProperty(Props.NAME, gambler.getName());
                 node.setProperty(Props.ACTIVE, gambler.isActive());
@@ -104,7 +104,7 @@ public class GamblerRepository extends Repository<Gambler> {
         LOGGER.info("Delete gambler with id {}", id);
         try (Transaction tx = database.startTransaction()) {
             Index<Node> index = database.getNodeIndex(Props.GAMBLERS_INDEX);
-            Node node = index.get(Props.ID, id).getSingle();
+            Node node = mapper.getNodeById(index, id);
             if (node != null) {
                 index.remove(node, Props.ID, node.getProperty(Props.ID));
                 index.remove(node, Props.NAME, node.getProperty(Props.NAME));
@@ -125,7 +125,7 @@ public class GamblerRepository extends Repository<Gambler> {
     protected int nextId() {
         try (Transaction tx = database.startTransaction()) {
             Index<Node> index = database.getNodeIndex(Props.GAMBLERS_INDEX);
-            int id = index.query(Props.ID, Props.ALL).size() + 1;
+            int id = mapper.getNodeCount(index) + 1;
             tx.success();
             return id;
         } catch (Exception e) {

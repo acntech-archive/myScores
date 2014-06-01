@@ -11,4 +11,6 @@ public abstract class Service<T> {
     public abstract void register(T data);
 
     public abstract void change(T data);
+
+    public abstract void delete(int id);
 }

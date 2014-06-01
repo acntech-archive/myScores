@@ -55,4 +55,14 @@ public class MatchService extends Service<Match> {
             throw new ServiceException("An error occurred while changing match with id " + id, e);
         }
     }
+
+    @Override
+    public void delete(int id) {
+        LOGGER.info("Delete match with id {}", id);
+        try {
+            repository.delete(id);
+        } catch (Exception e) {
+            throw new ServiceException("An error occurred while deleting match with id " + id, e);
+        }
+    }
 }

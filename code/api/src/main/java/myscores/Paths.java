@@ -7,9 +7,11 @@ public interface Paths {
 
     String GET = "/get/{id}";
     String ADD = "/add";
+    String REMOVE = "/remove";
     String FIND = "/find";
     String REGISTER = "/register";
     String CHANGE = "/change";
+    String DELETE = "/delete";
     String ACTIVATE = "/activate";
 
     String PARTY = "/party";
