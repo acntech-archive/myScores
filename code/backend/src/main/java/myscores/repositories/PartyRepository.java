@@ -62,7 +62,7 @@ public class PartyRepository extends Repository<Party> {
     @Override
     public void create(Party party) {
         party.setId(nextId());
-        LOGGER.info("Create team with id {}", party.getId());
+        LOGGER.info("Create party with id {}", party.getId());
         try (Transaction tx = database.startTransaction()) {
             Index<Node> index = database.getNodeIndex(Props.PARTIES_INDEX);
             if (!mapper.exists(index, party.getId())) {
@@ -82,7 +82,7 @@ public class PartyRepository extends Repository<Party> {
 
     @Override
     public void update(Party party) {
-        LOGGER.info("Update team with id {}", party.getId());
+        LOGGER.info("Update party with id {}", party.getId());
         try (Transaction tx = database.startTransaction()) {
             Index<Node> index = database.getNodeIndex(Props.PARTIES_INDEX);
             Node node = mapper.getNodeById(index, party.getId());

@@ -1,6 +1,6 @@
 package myscores.resources;
 
-import myscores.Paths;
+import myscores.constants.Paths;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;

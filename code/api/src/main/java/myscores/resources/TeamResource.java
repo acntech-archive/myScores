@@ -1,15 +1,14 @@
 package myscores.resources;
 
-import myscores.Paths;
+import myscores.constants.Params;
+import myscores.constants.Paths;
 import myscores.constants.ContentType;
 import myscores.domain.Team;
-import myscores.services.ServiceException;
 import myscores.services.TeamService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
-import javax.validation.Valid;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -19,7 +18,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import java.util.List;
 
-@Path(Paths.TEAM)
+@Path(Paths.TEAMS)
 @Produces(ContentType.APPLICATION_JSON_UTF_8)
 public class TeamResource {
 
@@ -29,82 +28,37 @@ public class TeamResource {
     private TeamService service;
 
     @GET
-    public Team root() {
-        Team team = new Team();
-        team.setId(1);
-        team.setName("Demo Team");
-        team.setFifaRanking(10);
-        return team;
-    }
-
-    @GET
-    @Path(Paths.GET)
-    public Team get(@PathParam(Paths.ID) String id) {
+    @Path(Paths.ID)
+    public Team get(@PathParam(Params.ID) String id) {
         LOGGER.info("Get team with id {}", id);
-        Team team = null;
-        try {
-            team = service.get(Integer.parseInt(id));
-        } catch (NumberFormatException e) {
-            LOGGER.error("Gambler id must be numeric");
-        } catch (ServiceException e) {
-            LOGGER.error("Getting team with id " + id + " failed", e);
-        }
-        return team;
+        return service.get(Integer.parseInt(id));
     }
 
     @GET
-    @Path(Paths.FIND)
     public List<Team> find() {
         LOGGER.info("Find teams");
-        try {
-            return service.find();
-        } catch (ServiceException e) {
-            LOGGER.error("Finding teams failed", e);
-            return null;
-        }
+        return service.find();
     }
 
     @POST
-    @Path(Paths.REGISTER)
-    public String register(@Valid Team team) {
+    public String register(Team team) {
         LOGGER.info("Register team");
-        try {
-            service.register(team);
-            return "Team " + team.getName() + " registered successfully";
-        } catch (ServiceException e) {
-            String error = "Registering team " + team.getName() + " failed";
-            LOGGER.error(error, e);
-            return error;
-        }
+        service.register(team);
+        return "Team " + team.getName() + " registered successfully";
     }
 
     @PUT
-    @Path(Paths.CHANGE)
-    public String change(@Valid Team team) {
+    public String change(Team team) {
         LOGGER.info("Change team");
-        try {
-            service.change(team);
-            return "Team " + team.getName() + " changed successfully";
-        } catch (ServiceException e) {
-            String error = "Changing team " + team.getName() + " failed";
-            LOGGER.error(error, e);
-            return error;
-        }
+        service.change(team);
+        return "Team " + team.getName() + " changed successfully";
     }
 
     @DELETE
     @Path(Paths.DELETE)
-    public String delete(String id) {
+    public String delete(@PathParam(Params.ID) String id) {
         LOGGER.info("Deleting team with id {}", id);
-        try {
-            service.delete(Integer.parseInt(id));
-            return "Team with id " + id + " deleted successfully";
-        } catch (NumberFormatException e) {
-            return "Team id must be numeric";
-        } catch (ServiceException e) {
-            String error = "Deletion of team with id " + id + " failed";
-            LOGGER.error(error, e);
-            return error;
-        }
+        service.delete(Integer.parseInt(id));
+        return "Team with id " + id + " deleted successfully";
     }
 }

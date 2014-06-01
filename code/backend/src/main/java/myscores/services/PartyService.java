@@ -1,6 +1,5 @@
 package myscores.services;
 
-import myscores.domain.Gambler;
 import myscores.domain.Party;
 import myscores.repositories.PartyRepository;
 import org.slf4j.Logger;
@@ -66,38 +65,34 @@ public class PartyService extends Service<Party> {
         }
     }
 
-    public void add(Party party) {
-        LOGGER.info("Adding gamblers to party with id {}", party.getId());
-        if (party == null) {
-            throw new ServiceException("Party object is null");
-        } else if (party.getGamblers() == null) {
+    public void add(int id, List<Integer> gamblers) {
+        LOGGER.info("Adding gamblers to party with id {}", id);
+        if (gamblers == null) {
             throw new ServiceException("Gambler list to be added to party is null");
         } else {
             try {
-                for (Gambler gambler : party.getGamblers()) {
-                    LOGGER.info("Adding gambler with id {} to party with id {}", gambler.getId(), party.getId());
-                    repository.add(party.getId(), gambler.getId());
+                for (int gambler : gamblers) {
+                    LOGGER.info("Adding gambler with id {} to party with id {}", gambler, id);
+                    repository.add(id, gambler);
                 }
             } catch (Exception e) {
-                throw new ServiceException("An error occurred while adding gamblers to party with id " + party.getId(), e);
+                throw new ServiceException("An error occurred while adding gamblers to party with id " + id, e);
             }
         }
     }
 
-    public void remove(Party party) {
-        LOGGER.info("Removing gamblers from party with id {}", party.getId());
-        if (party == null) {
-            throw new ServiceException("Party object is null");
-        } else if (party.getGamblers() == null) {
+    public void remove(int id, List<Integer> gamblers) {
+        LOGGER.info("Removing gamblers from party with id {}", id);
+        if (gamblers == null) {
             throw new ServiceException("Gambler list to be added to party is null");
         } else {
             try {
-                for (Gambler gambler : party.getGamblers()) {
-                    LOGGER.info("Removing gambler with id {} from party with id {}", gambler.getId(), party.getId());
-                    repository.remove(party.getId(), gambler.getId());
+                for (int gambler : gamblers) {
+                    LOGGER.info("Removing gambler with id {} from party with id {}", gambler, id);
+                    repository.remove(id, gambler);
                 }
             } catch (Exception e) {
-                throw new ServiceException("An error occurred while removing gamblers from party with id " + party.getId(), e);
+                throw new ServiceException("An error occurred while removing gamblers from party with id " + id, e);
             }
         }
     }

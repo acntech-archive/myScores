@@ -1,5 +1,7 @@
 package myscores;
 
+import myscores.constants.Paths;
+
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
 
