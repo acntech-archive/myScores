@@ -5,9 +5,11 @@ import myscores.repositories.TeamRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.ejb.Stateless;
 import javax.inject.Inject;
 import java.util.List;
 
+@Stateless
 public class TeamService extends Service<Team> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TeamService.class);

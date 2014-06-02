@@ -5,9 +5,11 @@ import myscores.repositories.PartyRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.ejb.Stateless;
 import javax.inject.Inject;
 import java.util.List;
 
+@Stateless
 public class PartyService extends Service<Party> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PartyService.class);

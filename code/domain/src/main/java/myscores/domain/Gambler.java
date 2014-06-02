@@ -1,8 +1,8 @@
 package myscores.domain;
 
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 public class Gambler {
@@ -10,8 +10,8 @@ public class Gambler {
     private int id;
 
     @NotNull
-    @Min(4)
-    @Max(50)
+    @Size(min = 4, max = 50)
+    @Pattern(regexp = "\\w+")
     private String name;
 
     private boolean active;

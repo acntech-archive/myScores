@@ -10,9 +10,11 @@ import org.neo4j.graphdb.index.Index;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.ejb.Stateless;
 import javax.inject.Inject;
 import java.util.List;
 
+@Stateless
 public class TeamRepository extends Repository<Team> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TeamRepository.class);

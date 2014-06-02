@@ -5,9 +5,11 @@ import myscores.repositories.MatchRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.ejb.Stateless;
 import javax.inject.Inject;
 import java.util.List;
 
+@Stateless
 public class MatchService extends Service<Match> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MatchService.class);
