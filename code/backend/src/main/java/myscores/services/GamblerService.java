@@ -15,7 +15,6 @@ public class GamblerService extends Service<Gambler> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GamblerService.class);
 
-
     @Inject
     private GamblerRepository repository;
 

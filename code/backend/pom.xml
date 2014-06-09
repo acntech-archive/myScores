@@ -14,12 +14,6 @@
 
     <!-- DEPENDENCIES -->
     <dependencies>
-        <!-- Test -->
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-        </dependency>
-
         <!-- Logging -->
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -37,33 +31,21 @@
             <artifactId>joda-time</artifactId>
         </dependency>
 
-        <!-- Security -->
-        <dependency>
-            <groupId>org.bouncycastle</groupId>
-            <artifactId>bcprov-jdk15on</artifactId>
-        </dependency>
-
         <!-- Java EE -->
-        <dependency>
-            <groupId>org.glassfish.jersey.core</groupId>
-            <artifactId>jersey-client</artifactId>
-        </dependency>
-
         <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-api</artifactId>
-        </dependency>
-
-        <!-- Neo4j -->
-        <dependency>
-            <groupId>org.neo4j</groupId>
-            <artifactId>neo4j</artifactId>
         </dependency>
 
         <!-- Project -->
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>myscores-domain</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>myscores-store</artifactId>
         </dependency>
     </dependencies>
 </project>

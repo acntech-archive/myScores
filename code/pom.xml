@@ -29,12 +29,23 @@
     <!-- MODULES -->
     <modules>
         <module>domain</module>
+        <module>utils</module>
+        <module>store</module>
         <module>backend</module>
         <module>api</module>
         <module>webapp</module>
+        <module>security</module>
     </modules>
 
     <!-- DEPENDENCIES -->
+    <dependencies>
+        <!-- Test -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+        </dependency>
+    </dependencies>
+
     <dependencyManagement>
         <dependencies>
             <!-- Test -->
@@ -117,6 +128,18 @@
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>myscores-domain</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>myscores-utils</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>myscores-store</artifactId>
                 <version>${project.version}</version>
             </dependency>
 

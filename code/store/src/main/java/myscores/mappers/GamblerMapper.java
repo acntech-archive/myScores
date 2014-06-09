@@ -18,9 +18,9 @@ public class GamblerMapper extends NodeMapper<Gambler> {
             Gambler gambler = new Gambler();
             gambler.setId(getIntProperty(node, Props.ID));
             gambler.setUsername(getStringProperty(node, Props.USERNAME));
-            gambler.setFirstName(getStringProperty(node, Props.FIRST_NAME));
-            gambler.setMiddleName(getStringProperty(node, Props.MIDDLE_NAME));
-            gambler.setLastName(getStringProperty(node, Props.LAST_NAME));
+            gambler.setFirstName(safeGetStringProperty(node, Props.FIRST_NAME));
+            gambler.setMiddleName(safeGetStringProperty(node, Props.MIDDLE_NAME));
+            gambler.setLastName(safeGetStringProperty(node, Props.LAST_NAME));
             gambler.setActive(getBooleanProperty(node, Props.ACTIVE));
             return gambler;
         } else {

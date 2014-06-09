@@ -45,4 +45,12 @@ public abstract class Mapper<T, U extends PropertyContainer> {
     public boolean getBooleanProperty(U item, String key) {
         return (Boolean) item.getProperty(key);
     }
+
+    public String safeGetStringProperty(U item, String key) {
+        if (item.hasProperty(key)) {
+            return getStringProperty(item, key);
+        } else {
+            return null;
+        }
+    }
 }

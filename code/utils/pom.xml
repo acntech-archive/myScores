@@ -9,13 +9,8 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>myscores-api</artifactId>
-    <packaging>war</packaging>
-
-    <!-- PROPERTIES -->
-    <properties>
-        <failOnMissingWebXml>false</failOnMissingWebXml>
-    </properties>
+    <artifactId>myscores-utils</artifactId>
+    <packaging>jar</packaging>
 
     <!-- DEPENDENCIES -->
     <dependencies>
@@ -30,32 +25,28 @@
             <artifactId>logback-classic</artifactId>
         </dependency>
 
+        <!-- Utils -->
+        <dependency>
+            <groupId>joda-time</groupId>
+            <artifactId>joda-time</artifactId>
+        </dependency>
+
+        <!-- Security -->
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcprov-jdk15on</artifactId>
+        </dependency>
+
         <!-- Java EE -->
         <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-api</artifactId>
         </dependency>
 
-        <!-- JAX-RS -->
-        <dependency>
-            <groupId>org.codehaus.jackson</groupId>
-            <artifactId>jackson-jaxrs</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.codehaus.jackson</groupId>
-            <artifactId>jackson-xc</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.codehaus.jackson</groupId>
-            <artifactId>jackson-mapper-asl</artifactId>
-        </dependency>
-
         <!-- Project -->
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>myscores-backend</artifactId>
+            <artifactId>myscores-domain</artifactId>
         </dependency>
     </dependencies>
 </project>
