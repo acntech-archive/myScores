@@ -12,7 +12,13 @@ public class Gambler {
     @NotNull
     @Size(min = 4, max = 50)
     @Pattern(regexp = "\\w+")
-    private String name;
+    private String username;
+
+    private String firstName;
+
+    private String middleName;
+
+    private String lastName;
 
     private boolean active;
 
@@ -26,12 +32,36 @@ public class Gambler {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getUsername() {
+        return username;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getMiddleName() {
+        return middleName;
+    }
+
+    public void setMiddleName(String middleName) {
+        this.middleName = middleName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public boolean isActive() {

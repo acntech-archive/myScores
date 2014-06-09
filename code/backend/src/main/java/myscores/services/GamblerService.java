@@ -34,29 +34,29 @@ public class GamblerService extends Service<Gambler> {
         LOGGER.info("Find gamblers");
         try {
             return repository.find();
-        } catch (RepositoryException e) {
+        } catch (Exception e) {
             throw new ServiceException("An error occurred while finding gamblers", e);
         }
     }
 
     @Override
     public void register(Gambler gambler) {
-        LOGGER.info("Register gambler {}", gambler.getName());
+        LOGGER.info("Register gambler {}", gambler.getUsername());
         gambler.setActive(Boolean.FALSE);
         try {
             repository.create(gambler);
-        } catch (RepositoryException e) {
-            throw new ServiceException("An error occurred while registering gambler " + gambler.getName(), e);
+        } catch (Exception e) {
+            throw new ServiceException("An error occurred while registering gambler " + gambler.getUsername(), e);
         }
     }
 
     @Override
     public void change(Gambler gambler) {
-        LOGGER.info("Change gambler {} with id {}", gambler.getName(), gambler.getId());
+        LOGGER.info("Change gambler {} with id {}", gambler.getUsername(), gambler.getId());
         try {
             repository.update(gambler);
-        } catch (RepositoryException e) {
-            throw new ServiceException("An error occurred while changing gambler " + gambler.getName() + " with id " + gambler.getId(), e);
+        } catch (Exception e) {
+            throw new ServiceException("An error occurred while changing gambler " + gambler.getUsername() + " with id " + gambler.getId(), e);
         }
     }
 
@@ -80,14 +80,14 @@ public class GamblerService extends Service<Gambler> {
         if (gambler == null) {
             throw new ServiceException("No gambler found for id " + id);
         } else if (gambler.isActive()) {
-            throw new ServiceException("Gambler " + gambler.getName() + " with id " + id + " is already active");
+            throw new ServiceException("Gambler " + gambler.getUsername() + " with id " + id + " is already active");
         } else {
-            LOGGER.info("Activate gambler {} with id {}", gambler.getName(), id);
+            LOGGER.info("Activate gambler {} with id {}", gambler.getUsername(), id);
             gambler.setActive(Boolean.TRUE);
             try {
                 repository.update(gambler);
             } catch (RepositoryException e) {
-                throw new ServiceException("An error occurred while activating gambler " + gambler.getName() + " with id " + id, e);
+                throw new ServiceException("An error occurred while activating gambler " + gambler.getUsername() + " with id " + id, e);
             }
         }
     }

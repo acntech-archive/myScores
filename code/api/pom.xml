@@ -19,11 +19,13 @@
 
     <!-- DEPENDENCIES -->
     <dependencies>
+        <!-- Test -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
         </dependency>
 
+        <!-- Logging -->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
@@ -34,11 +36,13 @@
             <artifactId>logback-classic</artifactId>
         </dependency>
 
+        <!-- Java EE -->
         <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-api</artifactId>
         </dependency>
 
+        <!-- JAX-RS -->
         <dependency>
             <groupId>org.codehaus.jackson</groupId>
             <artifactId>jackson-jaxrs</artifactId>
@@ -54,6 +58,7 @@
             <artifactId>jackson-mapper-asl</artifactId>
         </dependency>
 
+        <!-- Project -->
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>myscores-backend</artifactId>

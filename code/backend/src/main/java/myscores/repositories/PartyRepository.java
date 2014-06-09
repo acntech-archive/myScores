@@ -87,7 +87,7 @@ public class PartyRepository extends Repository<Party> {
         LOGGER.info("Update party with id {}", party.getId());
         try (Transaction tx = database.startTransaction()) {
             Index<Node> index = database.getNodeIndex(Props.PARTIES_INDEX);
-            Node node = mapper.getNodeById(index, party.getId());
+            Node node = mapper.getNode(index, party.getId());
             if (node != null) {
                 node.setProperty(Props.NAME, party.getName());
                 tx.success();
@@ -107,7 +107,7 @@ public class PartyRepository extends Repository<Party> {
         LOGGER.info("Delete party with id {}", id);
         try (Transaction tx = database.startTransaction()) {
             Index<Node> index = database.getNodeIndex(Props.PARTIES_INDEX);
-            Node node = mapper.getNodeById(index, id);
+            Node node = mapper.getNode(index, id);
             if (node != null) {
                 index.remove(node, Props.ID, node.getProperty(Props.ID));
                 node.delete();
@@ -127,10 +127,10 @@ public class PartyRepository extends Repository<Party> {
         LOGGER.info("Adding gambler with id {} to party with id {}", partyId);
         try (Transaction tx = database.startTransaction()) {
             Index<Node> partyIndex = database.getNodeIndex(Props.PARTIES_INDEX);
-            Node partyNode = mapper.getNodeById(partyIndex, partyId);
+            Node partyNode = mapper.getNode(partyIndex, partyId);
             if (partyNode != null) {
                 Index<Node> gamblerIndex = database.getNodeIndex(Props.GAMBLERS_INDEX);
-                Node gamblerNode = mapper.getNodeById(gamblerIndex, gamblerId);
+                Node gamblerNode = mapper.getNode(gamblerIndex, gamblerId);
                 if (gamblerNode != null) {
                     Relationship belongsTo = gamblerNode.createRelationshipTo(partyNode, ForGambler.BELONGS_TO);
                     belongsTo.setProperty(Props.SINCE, getCurrentTime());
@@ -154,15 +154,15 @@ public class PartyRepository extends Repository<Party> {
         LOGGER.info("Remove gambler with id {} from party with id {}", partyId);
         try (Transaction tx = database.startTransaction()) {
             Index<Node> gamblerIndex = database.getNodeIndex(Props.GAMBLERS_INDEX);
-            Node gamblerNode = mapper.getNodeById(gamblerIndex, gamblerId);
+            Node gamblerNode = mapper.getNode(gamblerIndex, gamblerId);
             if (gamblerNode != null) {
                 Index<Node> partyIndex = database.getNodeIndex(Props.PARTIES_INDEX);
-                Node partyNode = mapper.getNodeById(partyIndex, partyId);
+                Node partyNode = mapper.getNode(partyIndex, partyId);
                 if (partyNode != null) {
                     Iterable<Relationship> belongsTo = gamblerNode.getRelationships(ForGambler.BELONGS_TO, Direction.OUTGOING);
                     for (Relationship relationship : belongsTo) {
                         for (Node relationshipNode : relationship.getNodes()) {
-                            if (relationshipNode != null && relationshipNode.hasLabel(mapper.createLabel()) && partyId == mapper.getIdProperty(relationshipNode)) {
+                            if (relationshipNode != null && relationshipNode.hasLabel(mapper.createLabel()) && partyId == mapper.getIntProperty(relationshipNode, Props.ID)) {
                                 relationship.delete();
                             }
                         }

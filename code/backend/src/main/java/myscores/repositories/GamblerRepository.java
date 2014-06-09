@@ -67,7 +67,7 @@ public class GamblerRepository extends Repository<Gambler> {
             if (!mapper.exists(index, gambler.getId())) {
                 Node node = mapper.map(database.createNode(), gambler);
                 index.add(node, Props.ID, gambler.getId());
-                index.add(node, Props.NAME, gambler.getName());
+                index.add(node, Props.USERNAME, gambler.getUsername());
                 tx.success();
             } else {
                 tx.failure();
@@ -85,9 +85,9 @@ public class GamblerRepository extends Repository<Gambler> {
         LOGGER.info("Update gambler with id {}", gambler.getId());
         try (Transaction tx = database.startTransaction()) {
             Index<Node> index = database.getNodeIndex(Props.GAMBLERS_INDEX);
-            Node node = mapper.getNodeById(index, gambler.getId());
+            Node node = mapper.getNode(index, gambler.getId());
             if (node != null) {
-                node.setProperty(Props.NAME, gambler.getName());
+                node.setProperty(Props.USERNAME, gambler.getUsername());
                 node.setProperty(Props.ACTIVE, gambler.isActive());
                 tx.success();
             } else {
@@ -106,10 +106,10 @@ public class GamblerRepository extends Repository<Gambler> {
         LOGGER.info("Delete gambler with id {}", id);
         try (Transaction tx = database.startTransaction()) {
             Index<Node> index = database.getNodeIndex(Props.GAMBLERS_INDEX);
-            Node node = mapper.getNodeById(index, id);
+            Node node = mapper.getNode(index, id);
             if (node != null) {
                 index.remove(node, Props.ID, node.getProperty(Props.ID));
-                index.remove(node, Props.NAME, node.getProperty(Props.NAME));
+                index.remove(node, Props.USERNAME, node.getProperty(Props.USERNAME));
                 node.delete();
                 tx.success();
             } else {

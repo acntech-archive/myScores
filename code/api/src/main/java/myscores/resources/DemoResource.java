@@ -1,7 +1,7 @@
 package myscores.resources;
 
-import myscores.constants.Paths;
 import myscores.constants.ContentType;
+import myscores.constants.Paths;
 import myscores.domain.Gambler;
 import myscores.domain.Match;
 import myscores.domain.Party;
@@ -21,7 +21,7 @@ public class DemoResource {
     public Gambler gambler() {
         Gambler gambler = new Gambler();
         gambler.setId(1);
-        gambler.setName("Demo Gambler");
+        gambler.setUsername("Demo Gambler");
         return gambler;
     }
 
@@ -34,7 +34,7 @@ public class DemoResource {
         party.setGamblers(new ArrayList<Gambler>());
         Gambler gambler = new Gambler();
         gambler.setId(1);
-        gambler.setName("Demo Gambler");
+        gambler.setUsername("Demo Gambler");
         party.getGamblers().add(gambler);
         return party;
     }

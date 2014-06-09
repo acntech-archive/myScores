@@ -1,5 +1,7 @@
 package myscores.database;
 
+import myscores.util.EnvException;
+import myscores.util.EnvUtil;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Transaction;
@@ -13,10 +15,6 @@ import org.slf4j.LoggerFactory;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.ejb.Singleton;
-import java.io.IOException;
-import java.nio.file.FileSystems;
-import java.nio.file.Files;
-import java.nio.file.Path;
 
 @Singleton
 public class LocalGraphDatabase {
@@ -28,10 +26,10 @@ public class LocalGraphDatabase {
     @PostConstruct
     private void init() {
         try {
-            String databasePath = setupDatabaseDirectory();
+            String databasePath = EnvUtil.getDbDir();
             LOGGER.info("Starting graph database in directory {}", databasePath);
             database = createDatabase(databasePath);
-        } catch (DatabaseException e) {
+        } catch (EnvException | DatabaseException e) {
             LOGGER.error("Error while initializing database", e);
         }
     }
@@ -53,18 +51,6 @@ public class LocalGraphDatabase {
 
     public Node createNode() {
         return database.createNode();
-    }
-
-    private String setupDatabaseDirectory() {
-        Path databaseDirectory = FileSystems.getDefault().getPath(Props.DATABASE_ROOT, Props.DATABASE_NAME);
-        if (!Files.isDirectory(databaseDirectory)) {
-            try {
-                Files.createDirectory(databaseDirectory);
-            } catch (IOException e) {
-                throw new DatabaseException("Error while trying to create database directory", e);
-            }
-        }
-        return databaseDirectory.toString();
     }
 
     private GraphDatabaseService createDatabase(String databasePath) {

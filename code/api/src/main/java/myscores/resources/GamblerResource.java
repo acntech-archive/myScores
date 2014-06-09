@@ -1,8 +1,8 @@
 package myscores.resources;
 
+import myscores.constants.ContentType;
 import myscores.constants.Params;
 import myscores.constants.Paths;
-import myscores.constants.ContentType;
 import myscores.domain.Gambler;
 import myscores.services.GamblerService;
 import org.slf4j.Logger;
@@ -42,16 +42,16 @@ public class GamblerResource {
 
     @POST
     public String register(Gambler gambler) {
-        LOGGER.info("Register gambler {}", gambler.getName());
+        LOGGER.info("Register gambler {}", gambler.getUsername());
         service.register(gambler);
-        return "Gambler " + gambler.getName() + " registered successfully";
+        return "Gambler " + gambler.getUsername() + " registered successfully";
     }
 
     @PUT
     public String change(Gambler gambler) {
-        LOGGER.info("Change gambler {}", gambler.getName());
+        LOGGER.info("Change gambler {}", gambler.getUsername());
         service.change(gambler);
-        return "Gambler " + gambler.getName() + " changed successfully";
+        return "Gambler " + gambler.getUsername() + " changed successfully";
     }
 
     @DELETE

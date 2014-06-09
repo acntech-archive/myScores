@@ -1,12 +1,13 @@
 package myscores.calculation;
 
-import java.util.ArrayList;
-import java.util.List;
 import myscores.domain.Gambler;
 import myscores.domain.GameType;
 import myscores.domain.Match;
 import myscores.domain.Team;
 import myscores.domain.Winner;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class GamblerScoreCalculator {
 
@@ -173,7 +174,7 @@ public class GamblerScoreCalculator {
                 return match;
             }
         }
-        throw new MatchNotFoundException("Match #" + matchId + " not found for gambler " + gambler.getName());
+        throw new MatchNotFoundException("Match #" + matchId + " not found for gambler " + gambler.getUsername());
     }
 
 }

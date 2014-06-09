@@ -89,7 +89,7 @@ public class MatchRepository extends Repository<Match> {
         LOGGER.info("Delete match with id {}", id);
         try (Transaction tx = database.startTransaction()) {
             Index<Node> index = database.getNodeIndex(Props.MATCHES_INDEX);
-            Node node = mapper.getNodeById(index, id);
+            Node node = mapper.getNode(index, id);
             if (node != null) {
                 index.remove(node, Props.ID, node.getProperty(Props.ID));
                 node.delete();

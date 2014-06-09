@@ -1,8 +1,8 @@
 package myscores.resources;
 
+import myscores.constants.ContentType;
 import myscores.constants.Params;
 import myscores.constants.Paths;
-import myscores.constants.ContentType;
 import myscores.domain.Party;
 import myscores.services.PartyService;
 import org.slf4j.Logger;
@@ -67,7 +67,7 @@ public class PartyResource {
     public String add(@PathParam(Params.ID) String id, List<Integer> gamblers) {
         LOGGER.info("Adding to party with id {}", id);
         service.add(Integer.parseInt(id), gamblers);
-        return "Added gamblers to party with id" + id + " successfully";
+        return "Added gamblers to party with id " + id + " successfully";
     }
 
     @DELETE

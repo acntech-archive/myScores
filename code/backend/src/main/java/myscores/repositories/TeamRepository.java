@@ -84,7 +84,7 @@ public class TeamRepository extends Repository<Team> {
         LOGGER.info("Update team with id {}", team.getId());
         try (Transaction tx = database.startTransaction()) {
             Index<Node> index = database.getNodeIndex(Props.TEAMS_INDEX);
-            Node node = mapper.getNodeById(index, team.getId());
+            Node node = mapper.getNode(index, team.getId());
             if (node != null) {
                 node.setProperty(Props.NAME, team.getName());
                 tx.success();
@@ -104,7 +104,7 @@ public class TeamRepository extends Repository<Team> {
         LOGGER.info("Delete team with id {}", id);
         try (Transaction tx = database.startTransaction()) {
             Index<Node> index = database.getNodeIndex(Props.TEAMS_INDEX);
-            Node node = mapper.getNodeById(index, id);
+            Node node = mapper.getNode(index, id);
             if (node != null) {
                 index.remove(node, Props.ID, node.getProperty(Props.ID));
                 node.delete();

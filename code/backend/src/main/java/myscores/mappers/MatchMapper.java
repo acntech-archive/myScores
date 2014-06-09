@@ -14,10 +14,12 @@ public class MatchMapper extends NodeMapper<Match> {
     @Override
     public Match map(Node node) {
         if (node != null && hasLabel(node, createLabel())) {
+            LOGGER.debug("Mapping node to domain object");
             Match match = new Match();
-            match.setId(getIdProperty(node));
+            match.setId(getIntProperty(node, Props.ID));
             return match;
         } else {
+            LOGGER.debug("Node is null or has wrong label");
             return null;
         }
     }
@@ -25,12 +27,19 @@ public class MatchMapper extends NodeMapper<Match> {
     @Override
     public Node map(Node node, Match match) {
         if (node != null && match != null) {
+            LOGGER.debug("Mapping domain object to node");
             node.addLabel(createLabel());
             node.setProperty(Props.ID, match.getId());
             return node;
         } else {
+            LOGGER.debug("Node or domain object is null");
             return null;
         }
+    }
+
+    @Override
+    public String getDefaultKey() {
+        return Props.ID;
     }
 
     @Override

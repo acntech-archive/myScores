@@ -12,8 +12,8 @@ import java.util.List;
 public abstract class NodeMapper<T> extends Mapper<T, Node> {
 
     @Override
-    public T map(Index<Node> index, int id) {
-        Node node = index.get(Props.ID, id).getSingle();
+    public T map(Index<Node> index, Object value) {
+        Node node = getNode(index, value);
         return map(node);
     }
 
@@ -33,15 +33,15 @@ public abstract class NodeMapper<T> extends Mapper<T, Node> {
     }
 
     public IndexHits<Node> getAllNodes(Index<Node> index) {
-        return index.query(Props.ID, Props.ALL);
+        return index.query(getDefaultKey(), Props.ALL);
     }
 
     public int getNodeCount(Index<Node> index) {
         return getAllNodes(index).size();
     }
 
-    public Node getNodeById(Index<Node> index, int id) {
-        return index.get(Props.ID, id).getSingle();
+    public Node getNode(Index<Node> index, Object value) {
+        return index.get(getDefaultKey(), value).getSingle();
     }
 
     public abstract Label createLabel();
@@ -55,13 +55,5 @@ public abstract class NodeMapper<T> extends Mapper<T, Node> {
             }
         }
         return Boolean.FALSE;
-    }
-
-    public int getIdProperty(Node node) {
-        return (Integer) node.getProperty(Props.ID);
-    }
-
-    public String getNameProperty(Node node) {
-        return (String) node.getProperty(Props.NAME);
     }
 }
