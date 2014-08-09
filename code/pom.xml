@@ -30,7 +30,7 @@
     <modules>
         <module>domain</module>
         <module>utils</module>
-        <module>store</module>
+        <module>datastore</module>
         <module>backend</module>
         <module>api</module>
         <module>webapp</module>
@@ -139,7 +139,7 @@
 
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>myscores-store</artifactId>
+                <artifactId>myscores-datastore</artifactId>
                 <version>${project.version}</version>
             </dependency>
 

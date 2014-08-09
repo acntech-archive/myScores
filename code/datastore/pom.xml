@@ -9,7 +9,7 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>myscores-store</artifactId>
+    <artifactId>myscores-datastore</artifactId>
     <packaging>jar</packaging>
 
     <!-- DEPENDENCIES -->
