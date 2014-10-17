@@ -1,6 +1,6 @@
 package myscores.mappers;
 
-import myscores.database.Props;
+import myscores.constants.Props;
 import myscores.domain.Match;
 import org.neo4j.graphdb.Label;
 import org.neo4j.graphdb.Node;

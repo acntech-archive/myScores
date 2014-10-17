@@ -1,6 +1,6 @@
 package myscores.mappers;
 
-import myscores.database.Props;
+import myscores.constants.Props;
 import myscores.domain.Gambler;
 import myscores.domain.Party;
 import myscores.relationships.ForGambler;

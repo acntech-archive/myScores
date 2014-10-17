@@ -1,7 +1,7 @@
 package myscores.repositories;
 
 import myscores.database.LocalGraphDatabase;
-import myscores.database.Props;
+import myscores.constants.NodeIndex;
 import myscores.domain.AuthGroup;
 import myscores.domain.AuthUser;
 import myscores.mappers.AuthGroupMapper;
@@ -33,7 +33,7 @@ public class SecurityRepository {
     public AuthUser readAuthUser(String name) {
         LOGGER.info("Read auth user {}", name);
         try (Transaction tx = database.startTransaction()) {
-            Index<Node> index = database.getNodeIndex(Props.AUTH_USERS_INDEX);
+            Index<Node> index = database.getNodeIndex(NodeIndex.AUTH_USERS.getName());
             AuthUser authUser = authUserMapper.map(index, name);
             if (authUser != null) {
                 tx.success();
@@ -52,7 +52,7 @@ public class SecurityRepository {
     public AuthGroup readAuthGroup(String name) {
         LOGGER.info("Read auth group {}", name);
         try (Transaction tx = database.startTransaction()) {
-            Index<Node> index = database.getNodeIndex(Props.AUTH_GROUPS_INDEX);
+            Index<Node> index = database.getNodeIndex(NodeIndex.AUTH_GROUPS.getName());
             AuthGroup authGroup = authGroupMapper.map(index, name);
             if (authGroup != null) {
                 tx.success();

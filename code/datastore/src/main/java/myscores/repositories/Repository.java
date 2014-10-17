@@ -1,38 +1,22 @@
 package myscores.repositories;
 
-import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
-
 import java.util.List;
 
-public abstract class Repository<T> {
+public interface Repository<T> {
 
-    private static final String DATE_TIME_PATTERN = "yyyy-MM-dd HH:mm:ss";
+    T read(Object id);
 
-    public abstract T read(int id);
+    List<T> find();
 
-    public abstract List<T> find();
+    void create(T data);
 
-    public abstract void create(T data);
+    void update(T data);
 
-    public abstract void update(T data);
+    void delete(Object id);
 
-    public abstract void delete(int id);
+    void add(Object parentId, Object childId);
 
-    protected abstract int nextId();
+    void remove(Object parentId, Object childId);
 
-    protected String getCurrentTime() {
-        return getTime(DateTime.now());
-    }
-
-    protected String getTime(DateTime dateTime) {
-        DateTimeFormatter formatter = DateTimeFormat.forPattern(DATE_TIME_PATTERN);
-        return formatter.print(dateTime);
-    }
-
-    protected DateTime getTime(String dateTime) {
-        DateTimeFormatter formatter = DateTimeFormat.forPattern(DATE_TIME_PATTERN);
-        return formatter.parseDateTime(dateTime);
-    }
+    int nextId();
 }

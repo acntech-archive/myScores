@@ -1,12 +1,10 @@
 package myscores.repositories;
 
+import myscores.constants.Key;
 import myscores.database.LocalGraphDatabase;
-import myscores.database.Props;
+import myscores.constants.NodeIndex;
 import myscores.domain.Gambler;
 import myscores.mappers.GamblerMapper;
-import org.neo4j.graphdb.Node;
-import org.neo4j.graphdb.Transaction;
-import org.neo4j.graphdb.index.Index;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,7 +13,7 @@ import javax.inject.Inject;
 import java.util.List;
 
 @Stateless
-public class GamblerRepository extends Repository<Gambler> {
+public class GamblerRepository extends AbstractRepository<Gambler> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GamblerRepository.class);
 
@@ -26,112 +24,39 @@ public class GamblerRepository extends Repository<Gambler> {
     private GamblerMapper mapper;
 
     @Override
-    public Gambler read(int id) {
+    public Gambler read(Object id) {
         LOGGER.info("Read gambler for id {}", id);
-        try (Transaction tx = database.startTransaction()) {
-            Index<Node> index = database.getNodeIndex(Props.GAMBLERS_INDEX);
-            Gambler gambler = mapper.map(index, id);
-            if (gambler != null) {
-                tx.success();
-                return gambler;
-            } else {
-                tx.failure();
-                throw new RepositoryException("No gambler found for id " + id);
-            }
-        } catch (RepositoryException e) {
-            throw e;
-        } catch (Exception e) {
-            throw new RepositoryException("Read failed", e);
-        }
+        return read(database, mapper, NodeIndex.GAMBLERS, id);
     }
 
     @Override
     public List<Gambler> find() {
         LOGGER.info("Find gamblers");
-        try (Transaction tx = database.startTransaction()) {
-            Index<Node> index = database.getNodeIndex(Props.GAMBLERS_INDEX);
-            List<Gambler> gamblers = mapper.mapAll(index);
-            tx.success();
-            return gamblers;
-        } catch (Exception e) {
-            throw new RepositoryException("Find failed", e);
-        }
+        return find(database, mapper, NodeIndex.GAMBLERS);
     }
 
     @Override
     public void create(Gambler gambler) {
-        gambler.setId(nextId());
-        LOGGER.info("Create gambler with id {}", gambler.getId());
-        try (Transaction tx = database.startTransaction()) {
-            Index<Node> index = database.getNodeIndex(Props.GAMBLERS_INDEX);
-            if (!mapper.exists(index, gambler.getId())) {
-                Node node = mapper.map(database.createNode(), gambler);
-                index.add(node, Props.ID, gambler.getId());
-                index.add(node, Props.USERNAME, gambler.getUsername());
-                tx.success();
-            } else {
-                tx.failure();
-                throw new RepositoryException("Gambler with id " + gambler.getId() + " already exists");
-            }
-        } catch (RepositoryException e) {
-            throw e;
-        } catch (Exception e) {
-            throw new RepositoryException("Create failed", e);
-        }
+        int id = nextId();
+        LOGGER.info("Create gambler with id {}", id);
+        gambler.setId(id);
+        create(database, mapper, NodeIndex.GAMBLERS, gambler, id, keyValue(Key.USERNAME, gambler.getUsername()));
     }
 
     @Override
     public void update(Gambler gambler) {
         LOGGER.info("Update gambler with id {}", gambler.getId());
-        try (Transaction tx = database.startTransaction()) {
-            Index<Node> index = database.getNodeIndex(Props.GAMBLERS_INDEX);
-            Node node = mapper.getNode(index, gambler.getId());
-            if (node != null) {
-                node.setProperty(Props.USERNAME, gambler.getUsername());
-                node.setProperty(Props.ACTIVE, gambler.isActive());
-                tx.success();
-            } else {
-                tx.failure();
-                throw new RepositoryException("No gambler found for id " + gambler.getId());
-            }
-        } catch (RepositoryException e) {
-            throw e;
-        } catch (Exception e) {
-            throw new RepositoryException("Update failed", e);
-        }
+        update(database, mapper, NodeIndex.GAMBLERS, gambler.getId(), keyValue(Key.USERNAME, gambler.getUsername()), keyValue(Key.ACTIVE, gambler.isActive()));
     }
 
     @Override
-    public void delete(int id) {
+    public void delete(Object id) {
         LOGGER.info("Delete gambler with id {}", id);
-        try (Transaction tx = database.startTransaction()) {
-            Index<Node> index = database.getNodeIndex(Props.GAMBLERS_INDEX);
-            Node node = mapper.getNode(index, id);
-            if (node != null) {
-                index.remove(node, Props.ID, node.getProperty(Props.ID));
-                index.remove(node, Props.USERNAME, node.getProperty(Props.USERNAME));
-                node.delete();
-                tx.success();
-            } else {
-                tx.failure();
-                throw new RepositoryException("No gambler found for id " + id);
-            }
-        } catch (RepositoryException e) {
-            throw e;
-        } catch (Exception e) {
-            throw new RepositoryException("Delete failed", e);
-        }
+        delete(database, mapper, NodeIndex.GAMBLERS, id, Key.USERNAME);
     }
 
     @Override
-    protected int nextId() {
-        try (Transaction tx = database.startTransaction()) {
-            Index<Node> index = database.getNodeIndex(Props.GAMBLERS_INDEX);
-            int id = mapper.getNodeCount(index) + 1;
-            tx.success();
-            return id;
-        } catch (Exception e) {
-            throw new RepositoryException("Getting next index failed", e);
-        }
+    public int nextId() {
+        return nextId(database, mapper, NodeIndex.GAMBLERS);
     }
 }

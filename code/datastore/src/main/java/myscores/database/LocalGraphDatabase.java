@@ -17,7 +17,7 @@ import javax.annotation.PreDestroy;
 import javax.ejb.Singleton;
 
 @Singleton
-public class LocalGraphDatabase {
+public class LocalGraphDatabase implements GraphDatabase {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(LocalGraphDatabase.class);
 
@@ -41,14 +41,17 @@ public class LocalGraphDatabase {
         }
     }
 
+    @Override
     public Transaction startTransaction() {
         return database.beginTx();
     }
 
+    @Override
     public Index<Node> getNodeIndex(String name) {
         return database.index().forNodes(name);
     }
 
+    @Override
     public Node createNode() {
         return database.createNode();
     }
