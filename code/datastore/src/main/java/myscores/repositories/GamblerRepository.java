@@ -2,7 +2,7 @@ package myscores.repositories;
 
 import myscores.constants.Key;
 import myscores.constants.NodeIndex;
-import myscores.database.LocalGraphDatabase;
+import myscores.database.GraphDatabase;
 import myscores.domain.Gambler;
 import myscores.mappers.GamblerMapper;
 import org.slf4j.Logger;
@@ -20,7 +20,7 @@ public class GamblerRepository extends AbstractRepository<Gambler> {
     private static final Logger LOGGER = LoggerFactory.getLogger(GamblerRepository.class);
 
     @Inject
-    private LocalGraphDatabase database;
+    private GraphDatabase database;
 
     @Inject
     private GamblerMapper mapper;

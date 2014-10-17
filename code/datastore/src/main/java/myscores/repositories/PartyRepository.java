@@ -2,7 +2,7 @@ package myscores.repositories;
 
 import myscores.constants.Key;
 import myscores.constants.NodeIndex;
-import myscores.database.LocalGraphDatabase;
+import myscores.database.GraphDatabase;
 import myscores.datetime.DateTimeParser;
 import myscores.domain.Party;
 import myscores.mappers.PartyMapper;
@@ -24,7 +24,7 @@ public class PartyRepository extends AbstractRepository<Party> {
     private static final Logger LOGGER = LoggerFactory.getLogger(PartyRepository.class);
 
     @Inject
-    private LocalGraphDatabase database;
+    private GraphDatabase database;
 
     @Inject
     private PartyMapper mapper;

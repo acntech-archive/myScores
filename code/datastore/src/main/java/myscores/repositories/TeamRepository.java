@@ -2,7 +2,7 @@ package myscores.repositories;
 
 import myscores.constants.Key;
 import myscores.constants.NodeIndex;
-import myscores.database.LocalGraphDatabase;
+import myscores.database.GraphDatabase;
 import myscores.domain.Team;
 import myscores.mappers.TeamMapper;
 import org.slf4j.Logger;
@@ -20,7 +20,7 @@ public class TeamRepository extends AbstractRepository<Team> {
     private static final Logger LOGGER = LoggerFactory.getLogger(TeamRepository.class);
 
     @Inject
-    private LocalGraphDatabase database;
+    private GraphDatabase database;
 
     @Inject
     private TeamMapper mapper;

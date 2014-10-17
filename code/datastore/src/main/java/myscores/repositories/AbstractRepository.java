@@ -171,7 +171,7 @@ public abstract class AbstractRepository<T> implements Repository<T> {
                     Iterable<Relationship> belongsTo = gamblerNode.getRelationships(type, dir);
                     for (Relationship relationship : belongsTo) {
                         for (Node relationshipNode : relationship.getNodes()) {
-                            if (relationshipNode != null && relationshipNode.hasLabel(mapper.createLabel()) && parentId == mapper.getIntProperty(relationshipNode, Key.ID)) {
+                            if (relationshipNode != null && relationshipNode.hasLabel(mapper.createLabel()) && mapper.getIntProperty(relationshipNode, Key.ID) == (int) parentId) {
                                 relationship.delete();
                             }
                         }

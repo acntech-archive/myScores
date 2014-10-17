@@ -1,7 +1,7 @@
 package myscores.repositories;
 
-import myscores.database.LocalGraphDatabase;
 import myscores.constants.NodeIndex;
+import myscores.database.GraphDatabase;
 import myscores.domain.AuthGroup;
 import myscores.domain.AuthUser;
 import myscores.mappers.AuthGroupMapper;
@@ -21,7 +21,7 @@ public class SecurityRepository {
     private static final Logger LOGGER = LoggerFactory.getLogger(SecurityRepository.class);
 
     @Inject
-    private LocalGraphDatabase database;
+    private GraphDatabase database;
 
     @Inject
     private AuthUserMapper authUserMapper;

@@ -1,7 +1,7 @@
 package myscores.repositories;
 
-import myscores.database.LocalGraphDatabase;
 import myscores.constants.NodeIndex;
+import myscores.database.GraphDatabase;
 import myscores.domain.Match;
 import myscores.mappers.MatchMapper;
 import org.slf4j.Logger;
@@ -17,7 +17,7 @@ public class MatchRepository extends AbstractRepository<Match> {
     private static final Logger LOGGER = LoggerFactory.getLogger(MatchRepository.class);
 
     @Inject
-    private LocalGraphDatabase database;
+    private GraphDatabase database;
 
     @Inject
     private MatchMapper mapper;
