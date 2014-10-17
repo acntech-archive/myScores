@@ -1,6 +1,6 @@
 package myscores.mappers;
 
-import myscores.constants.Props;
+import myscores.constants.Key;
 import myscores.domain.Gambler;
 import myscores.domain.Party;
 import myscores.relationships.ForGambler;
@@ -27,8 +27,8 @@ public class PartyMapper extends NodeMapper<Party> {
         if (node != null && hasLabel(node, createLabel())) {
             LOGGER.debug("Mapping node to domain object");
             Party party = new Party();
-            party.setId(getIntProperty(node, Props.ID));
-            party.setName(getStringProperty(node, Props.NAME));
+            party.setId(getIntProperty(node, Key.ID));
+            party.setName(getStringProperty(node, Key.NAME));
             party.setGamblers(mapGamblers(node));
             return party;
         } else {
@@ -42,8 +42,8 @@ public class PartyMapper extends NodeMapper<Party> {
         if (node != null && party != null) {
             LOGGER.debug("Mapping domain object to node");
             node.addLabel(createLabel());
-            node.setProperty(Props.ID, party.getId());
-            node.setProperty(Props.NAME, party.getName());
+            setProperty(node, Key.ID, party.getId());
+            setProperty(node, Key.NAME, party.getName());
             return node;
         } else {
             LOGGER.debug("Node or domain object is null");
@@ -52,8 +52,8 @@ public class PartyMapper extends NodeMapper<Party> {
     }
 
     @Override
-    public String getDefaultKey() {
-        return Props.ID;
+    public Key getDefaultKey() {
+        return Key.ID;
     }
 
     @Override

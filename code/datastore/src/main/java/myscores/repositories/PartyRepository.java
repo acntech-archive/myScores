@@ -1,8 +1,8 @@
 package myscores.repositories;
 
 import myscores.constants.Key;
-import myscores.database.LocalGraphDatabase;
 import myscores.constants.NodeIndex;
+import myscores.database.LocalGraphDatabase;
 import myscores.datetime.DateTimeParser;
 import myscores.domain.Party;
 import myscores.mappers.PartyMapper;
@@ -15,6 +15,8 @@ import org.slf4j.LoggerFactory;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import java.util.List;
+
+import static myscores.mappers.Mapper.keyValue;
 
 @Stateless
 public class PartyRepository extends AbstractRepository<Party> {

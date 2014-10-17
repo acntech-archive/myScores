@@ -1,9 +1,9 @@
 package myscores.repositories;
 
-import myscores.database.GraphDatabase;
 import myscores.constants.Key;
 import myscores.constants.KeyValue;
 import myscores.constants.NodeIndex;
+import myscores.database.GraphDatabase;
 import myscores.mappers.NodeMapper;
 import org.neo4j.graphdb.Direction;
 import org.neo4j.graphdb.Node;
@@ -171,7 +171,7 @@ public abstract class AbstractRepository<T> implements Repository<T> {
                     Iterable<Relationship> belongsTo = gamblerNode.getRelationships(type, dir);
                     for (Relationship relationship : belongsTo) {
                         for (Node relationshipNode : relationship.getNodes()) {
-                            if (relationshipNode != null && relationshipNode.hasLabel(mapper.createLabel()) && parentId == mapper.getIntProperty(relationshipNode, Key.ID.getName())) {
+                            if (relationshipNode != null && relationshipNode.hasLabel(mapper.createLabel()) && parentId == mapper.getIntProperty(relationshipNode, Key.ID)) {
                                 relationship.delete();
                             }
                         }
@@ -201,9 +201,5 @@ public abstract class AbstractRepository<T> implements Repository<T> {
         } catch (Exception e) {
             throw new RepositoryException("Getting next index failed", e);
         }
-    }
-
-    protected KeyValue keyValue(Key key, Object value) {
-        return new KeyValue(key, value);
     }
 }

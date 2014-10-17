@@ -1,6 +1,6 @@
 package myscores.mappers;
 
-import myscores.constants.Props;
+import myscores.constants.Key;
 import myscores.domain.Match;
 import org.neo4j.graphdb.Label;
 import org.neo4j.graphdb.Node;
@@ -16,7 +16,7 @@ public class MatchMapper extends NodeMapper<Match> {
         if (node != null && hasLabel(node, createLabel())) {
             LOGGER.debug("Mapping node to domain object");
             Match match = new Match();
-            match.setId(getIntProperty(node, Props.ID));
+            match.setId(getIntProperty(node, Key.ID));
             return match;
         } else {
             LOGGER.debug("Node is null or has wrong label");
@@ -29,7 +29,7 @@ public class MatchMapper extends NodeMapper<Match> {
         if (node != null && match != null) {
             LOGGER.debug("Mapping domain object to node");
             node.addLabel(createLabel());
-            node.setProperty(Props.ID, match.getId());
+            setProperty(node, Key.ID, match.getId());
             return node;
         } else {
             LOGGER.debug("Node or domain object is null");
@@ -38,8 +38,8 @@ public class MatchMapper extends NodeMapper<Match> {
     }
 
     @Override
-    public String getDefaultKey() {
-        return Props.ID;
+    public Key getDefaultKey() {
+        return Key.ID;
     }
 
     @Override

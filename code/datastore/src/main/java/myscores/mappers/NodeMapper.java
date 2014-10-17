@@ -1,5 +1,6 @@
 package myscores.mappers;
 
+import myscores.constants.Key;
 import myscores.constants.Props;
 import org.neo4j.graphdb.Label;
 import org.neo4j.graphdb.Node;
@@ -32,8 +33,12 @@ public abstract class NodeMapper<T> extends Mapper<T, Node> {
         return items;
     }
 
+    protected void setProperty(Node node, Key key, Object value) {
+        node.setProperty(key.getName(), value);
+    }
+
     public IndexHits<Node> getAllNodes(Index<Node> index) {
-        return index.query(getDefaultKey(), Props.ALL);
+        return index.query(getDefaultKey().getName(), Props.ALL);
     }
 
     public int getNodeCount(Index<Node> index) {
@@ -41,7 +46,7 @@ public abstract class NodeMapper<T> extends Mapper<T, Node> {
     }
 
     public Node getNode(Index<Node> index, Object value) {
-        return index.get(getDefaultKey(), value).getSingle();
+        return index.get(getDefaultKey().getName(), value).getSingle();
     }
 
     public abstract Label createLabel();

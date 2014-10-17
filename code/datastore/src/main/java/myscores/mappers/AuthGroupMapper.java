@@ -1,6 +1,6 @@
 package myscores.mappers;
 
-import myscores.constants.Props;
+import myscores.constants.Key;
 import myscores.domain.AuthGroup;
 import org.neo4j.graphdb.Label;
 import org.neo4j.graphdb.Node;
@@ -16,7 +16,7 @@ public class AuthGroupMapper extends NodeMapper<AuthGroup> {
         if (node != null && hasLabel(node, createLabel())) {
             LOGGER.debug("Mapping node to domain object");
             AuthGroup authGroup = new AuthGroup();
-            authGroup.setName(getStringProperty(node, Props.NAME));
+            authGroup.setName(getStringProperty(node, Key.NAME));
             return authGroup;
         } else {
             LOGGER.debug("Node is null or has wrong label");
@@ -29,7 +29,7 @@ public class AuthGroupMapper extends NodeMapper<AuthGroup> {
         if (node != null && authGroup != null) {
             LOGGER.debug("Mapping domain object to node");
             node.addLabel(createLabel());
-            node.setProperty(Props.NAME, authGroup.getName());
+            setProperty(node, Key.NAME, authGroup.getName());
             return node;
         } else {
             LOGGER.debug("Node or domain object is null");
@@ -38,8 +38,8 @@ public class AuthGroupMapper extends NodeMapper<AuthGroup> {
     }
 
     @Override
-    public String getDefaultKey() {
-        return Props.USERNAME;
+    public Key getDefaultKey() {
+        return Key.USERNAME;
     }
 
     @Override

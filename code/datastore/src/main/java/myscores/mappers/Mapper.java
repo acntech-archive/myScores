@@ -1,5 +1,7 @@
 package myscores.mappers;
 
+import myscores.constants.Key;
+import myscores.constants.KeyValue;
 import org.neo4j.graphdb.DynamicLabel;
 import org.neo4j.graphdb.Label;
 import org.neo4j.graphdb.Node;
@@ -18,10 +20,10 @@ public abstract class Mapper<T, U extends PropertyContainer> {
 
     public abstract Node map(U item, T data);
 
-    public abstract String getDefaultKey();
+    public abstract Key getDefaultKey();
 
     public boolean exists(Index<U> index, Object value) {
-        return index.get(getDefaultKey(), value).getSingle() != null;
+        return index.get(getDefaultKey().getName(), value).getSingle() != null;
     }
 
     public void safeSetProperty(U item, String key, Object value) {
@@ -34,23 +36,27 @@ public abstract class Mapper<T, U extends PropertyContainer> {
         return DynamicLabel.label(clazz.getSimpleName().toUpperCase());
     }
 
-    public int getIntProperty(U item, String key) {
-        return (Integer) item.getProperty(key);
+    public int getIntProperty(U item, Key key) {
+        return (Integer) item.getProperty(key.getName());
     }
 
-    public String getStringProperty(U item, String key) {
-        return (String) item.getProperty(key);
+    public String getStringProperty(U item, Key key) {
+        return (String) item.getProperty(key.getName());
     }
 
-    public boolean getBooleanProperty(U item, String key) {
-        return (Boolean) item.getProperty(key);
+    public boolean getBooleanProperty(U item, Key key) {
+        return (Boolean) item.getProperty(key.getName());
     }
 
-    public String safeGetStringProperty(U item, String key) {
-        if (item.hasProperty(key)) {
+    public String safeGetStringProperty(U item, Key key) {
+        if (item.hasProperty(key.getName())) {
             return getStringProperty(item, key);
         } else {
             return null;
         }
+    }
+
+    public static KeyValue keyValue(Key key, Object value) {
+        return new KeyValue(key, value);
     }
 }

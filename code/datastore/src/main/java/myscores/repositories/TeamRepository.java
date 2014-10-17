@@ -1,8 +1,8 @@
 package myscores.repositories;
 
 import myscores.constants.Key;
-import myscores.database.LocalGraphDatabase;
 import myscores.constants.NodeIndex;
+import myscores.database.LocalGraphDatabase;
 import myscores.domain.Team;
 import myscores.mappers.TeamMapper;
 import org.slf4j.Logger;
@@ -11,6 +11,8 @@ import org.slf4j.LoggerFactory;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import java.util.List;
+
+import static myscores.mappers.Mapper.keyValue;
 
 @Stateless
 public class TeamRepository extends AbstractRepository<Team> {

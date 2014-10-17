@@ -1,6 +1,6 @@
 package myscores.mappers;
 
-import myscores.constants.Props;
+import myscores.constants.Key;
 import myscores.domain.Gambler;
 import org.neo4j.graphdb.Label;
 import org.neo4j.graphdb.Node;
@@ -16,12 +16,12 @@ public class GamblerMapper extends NodeMapper<Gambler> {
         if (node != null && hasLabel(node, createLabel())) {
             LOGGER.debug("Mapping node to domain object");
             Gambler gambler = new Gambler();
-            gambler.setId(getIntProperty(node, Props.ID));
-            gambler.setUsername(getStringProperty(node, Props.USERNAME));
-            gambler.setFirstName(safeGetStringProperty(node, Props.FIRST_NAME));
-            gambler.setMiddleName(safeGetStringProperty(node, Props.MIDDLE_NAME));
-            gambler.setLastName(safeGetStringProperty(node, Props.LAST_NAME));
-            gambler.setActive(getBooleanProperty(node, Props.ACTIVE));
+            gambler.setId(getIntProperty(node, Key.ID));
+            gambler.setUsername(getStringProperty(node, Key.USERNAME));
+            gambler.setFirstName(safeGetStringProperty(node, Key.FIRST_NAME));
+            gambler.setMiddleName(safeGetStringProperty(node, Key.MIDDLE_NAME));
+            gambler.setLastName(safeGetStringProperty(node, Key.LAST_NAME));
+            gambler.setActive(getBooleanProperty(node, Key.ACTIVE));
             return gambler;
         } else {
             LOGGER.debug("Node is null or has wrong label");
@@ -34,12 +34,12 @@ public class GamblerMapper extends NodeMapper<Gambler> {
         if (node != null && gambler != null) {
             LOGGER.debug("Mapping domain object to node");
             node.addLabel(createLabel());
-            node.setProperty(Props.ID, gambler.getId());
-            node.setProperty(Props.USERNAME, gambler.getUsername());
-            safeSetProperty(node, Props.FIRST_NAME, gambler.getFirstName());
-            safeSetProperty(node, Props.MIDDLE_NAME, gambler.getMiddleName());
-            safeSetProperty(node, Props.LAST_NAME, gambler.getLastName());
-            node.setProperty(Props.ACTIVE, gambler.isActive());
+            setProperty(node, Key.ID, gambler.getId());
+            setProperty(node, Key.USERNAME, gambler.getUsername());
+            setProperty(node, Key.FIRST_NAME, gambler.getFirstName());
+            setProperty(node, Key.MIDDLE_NAME, gambler.getMiddleName());
+            setProperty(node, Key.LAST_NAME, gambler.getLastName());
+            setProperty(node, Key.ACTIVE, gambler.isActive());
             return node;
         } else {
             LOGGER.debug("Node or domain object is null");
@@ -48,8 +48,8 @@ public class GamblerMapper extends NodeMapper<Gambler> {
     }
 
     @Override
-    public String getDefaultKey() {
-        return Props.ID;
+    public Key getDefaultKey() {
+        return Key.ID;
     }
 
     @Override
