@@ -18,6 +18,8 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import java.util.List;
 
+import static myscores.util.ParseUtil.parseInt;
+
 @Path(Paths.PARTIES)
 @Produces(ContentType.APPLICATION_JSON_UTF_8)
 public class PartyResource {
@@ -31,50 +33,34 @@ public class PartyResource {
     @Path(Paths.ID)
     public Party get(@PathParam(Params.ID) String id) {
         LOGGER.info("Get party with id {}", id);
-        return service.get(Integer.parseInt(id));
+        return service.get(parseInt(id));
     }
 
     @GET
-    public List<Party> find() {
-        LOGGER.info("Find parties");
+    public List<Party> get() {
+        LOGGER.info("Get parties");
         return service.find();
     }
 
     @POST
-    public String register(Party party) {
-        LOGGER.info("Register party");
+    public String post(Party party) {
+        LOGGER.info("Post party");
         service.register(party);
         return "Party " + party.getName() + " registered successfully";
     }
 
     @PUT
-    public String change(Party party) {
-        LOGGER.info("Change party");
+    public String put(Party party) {
+        LOGGER.info("Put party");
         service.change(party);
         return "Party " + party.getName() + " changed successfully";
     }
 
     @DELETE
-    @Path(Paths.DELETE)
+    @Path(Paths.ID)
     public String delete(@PathParam(Params.ID) String id) {
-        LOGGER.info("Deleting party with id {}", id);
-        service.delete(Integer.parseInt(id));
+        LOGGER.info("Delete party with id {}", id);
+        service.delete(parseInt(id));
         return "Party with id " + id + " deleted successfully";
-    }
-
-    @PUT
-    @Path(Paths.ADD)
-    public String add(@PathParam(Params.ID) String id, List<Integer> gamblers) {
-        LOGGER.info("Adding to party with id {}", id);
-        service.add(Integer.parseInt(id), gamblers);
-        return "Added gamblers to party with id " + id + " successfully";
-    }
-
-    @DELETE
-    @Path(Paths.REMOVE)
-    public String remove(@PathParam(Params.ID) String id, List<Integer> gamblers) {
-        LOGGER.info("Removing from party with id {}", id);
-        service.remove(Integer.parseInt(id), gamblers);
-        return "Removed gamblers from party with id " + id + " successfully";
     }
 }

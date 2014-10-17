@@ -1,7 +1,7 @@
 package myscores.database;
 
-import myscores.util.EnvException;
-import myscores.util.EnvUtil;
+import myscores.env.EnvException;
+import myscores.env.EnvUtil;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Transaction;

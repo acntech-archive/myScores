@@ -1,4 +1,4 @@
-package myscores.util;
+package myscores.env;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

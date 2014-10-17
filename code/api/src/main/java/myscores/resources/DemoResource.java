@@ -22,6 +22,8 @@ public class DemoResource {
         Gambler gambler = new Gambler();
         gambler.setId(1);
         gambler.setUsername("Demo Gambler");
+        gambler.setFirstName("Demo");
+        gambler.setLastName("Gambler");
         return gambler;
     }
 

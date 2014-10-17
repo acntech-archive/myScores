@@ -9,7 +9,7 @@ import javax.ws.rs.Path;
 public class Ping {
 
     @GET
-    public String ping() {
+    public String get() {
         return "Hello!";
     }
 }

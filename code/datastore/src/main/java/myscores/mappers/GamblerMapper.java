@@ -37,7 +37,7 @@ public class GamblerMapper extends NodeMapper<Gambler> {
             setProperty(node, Key.ID, gambler.getId());
             setProperty(node, Key.USERNAME, gambler.getUsername());
             setProperty(node, Key.FIRST_NAME, gambler.getFirstName());
-            setProperty(node, Key.MIDDLE_NAME, gambler.getMiddleName());
+            setSafeProperty(node, Key.MIDDLE_NAME, gambler.getMiddleName());
             setProperty(node, Key.LAST_NAME, gambler.getLastName());
             setProperty(node, Key.ACTIVE, gambler.isActive());
             return node;

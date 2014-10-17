@@ -1,8 +1,8 @@
 package myscores.resources;
 
+import myscores.constants.ContentType;
 import myscores.constants.Params;
 import myscores.constants.Paths;
-import myscores.constants.ContentType;
 import myscores.domain.Team;
 import myscores.services.TeamService;
 import org.slf4j.Logger;
@@ -18,6 +18,8 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import java.util.List;
 
+import static myscores.util.ParseUtil.parseInt;
+
 @Path(Paths.TEAMS)
 @Produces(ContentType.APPLICATION_JSON_UTF_8)
 public class TeamResource {
@@ -31,34 +33,34 @@ public class TeamResource {
     @Path(Paths.ID)
     public Team get(@PathParam(Params.ID) String id) {
         LOGGER.info("Get team with id {}", id);
-        return service.get(Integer.parseInt(id));
+        return service.get(parseInt(id));
     }
 
     @GET
-    public List<Team> find() {
-        LOGGER.info("Find teams");
+    public List<Team> get() {
+        LOGGER.info("Get teams");
         return service.find();
     }
 
     @POST
-    public String register(Team team) {
-        LOGGER.info("Register team");
+    public String post(Team team) {
+        LOGGER.info("Post team");
         service.register(team);
-        return "Team " + team.getName() + " registered successfully";
+        return "Team " + team.getName() + " posted successfully";
     }
 
     @PUT
-    public String change(Team team) {
-        LOGGER.info("Change team");
+    public String put(Team team) {
+        LOGGER.info("Put team");
         service.change(team);
-        return "Team " + team.getName() + " changed successfully";
+        return "Team " + team.getName() + " put successfully";
     }
 
     @DELETE
-    @Path(Paths.DELETE)
+    @Path(Paths.ID)
     public String delete(@PathParam(Params.ID) String id) {
-        LOGGER.info("Deleting team with id {}", id);
-        service.delete(Integer.parseInt(id));
+        LOGGER.info("Delete team with id {}", id);
+        service.delete(parseInt(id));
         return "Team with id " + id + " deleted successfully";
     }
 }

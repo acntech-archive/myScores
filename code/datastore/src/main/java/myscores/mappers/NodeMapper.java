@@ -37,6 +37,12 @@ public abstract class NodeMapper<T> extends Mapper<T, Node> {
         node.setProperty(key.getName(), value);
     }
 
+    protected void setSafeProperty(Node node, Key key, Object value) {
+        if (value != null) {
+            node.setProperty(key.getName(), value);
+        }
+    }
+
     public IndexHits<Node> getAllNodes(Index<Node> index) {
         return index.query(getDefaultKey().getName(), Props.ALL);
     }

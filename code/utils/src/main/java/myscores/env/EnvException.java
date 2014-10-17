@@ -1,4 +1,4 @@
-package myscores.util;
+package myscores.env;
 
 public class EnvException extends RuntimeException {
 
